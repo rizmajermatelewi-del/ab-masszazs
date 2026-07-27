@@ -155,25 +155,20 @@ export const FAQ = [
 ]
 
 /* --- Vélemények ---------------------------------------------------
- * FIGYELEM: ezek MINTÁK, nem valódi vendégvélemények. Nincs
- * hozzáférésem valósakhoz — kérj be néhányat a vendégeidtől, és írd
- * be ide. Kitalált véleményt kiírni fogyasztóvédelmileg kockázatos,
- * ezért hagytam meg őket felismerhetően mintaszövegnek.
+ * SZÁNDÉKOSAN ÜRES. Amíg nincs valódi vendégvélemény, a szekció
+ * egyáltalán nem jelenik meg — a Testimonials komponens üres tömb
+ * esetén null-t ad vissza. Nem kell kódot módosítani a
+ * visszakapcsoláshoz: elég ide beírni az első valódi véleményt.
+ *
+ * Kitalált vagy „mintaszövegként” kiírt vélemény rosszabb, mint a
+ * semmi: hiányos oldal benyomását kelti, valótlan állítást tenne a
+ * vendégekről, és fogyasztóvédelmileg is kockázatos.
+ *
+ * Formátum:
+ *   {
+ *     text: '2–3 mondat: mivel érkezett a vendég, mit érzett utána.',
+ *     author: 'Keresztnév V.',   // kérj engedélyt a névhasználatra
+ *     meta: 'Yumeiho terápia',
+ *   }
  * ------------------------------------------------------------------ */
-export const TESTIMONIALS = [
-  {
-    text: '[MINTASZÖVEG — cseréld valódi vendégvéleményre a config.js-ben.] Ide kerül egy 2–3 mondatos visszajelzés arról, mivel érkezett a vendég és mit érzett a kezelés után.',
-    author: 'Vendég neve',
-    meta: 'Kezelés típusa',
-  },
-  {
-    text: '[MINTASZÖVEG — cseréld valódi vendégvéleményre.] A legjobbak a konkrét visszajelzések: „három hete nem tudtam oldalra fordítani a nyakam, két kezelés után elmúlt”.',
-    author: 'Vendég neve',
-    meta: 'Kezelés típusa',
-  },
-  {
-    text: '[MINTASZÖVEG — cseréld valódi vendégvéleményre.] Kérj engedélyt a névhasználatra, vagy használj keresztnevet és kezdőbetűt.',
-    author: 'Vendég neve',
-    meta: 'Kezelés típusa',
-  },
-]
+export const TESTIMONIALS = []
