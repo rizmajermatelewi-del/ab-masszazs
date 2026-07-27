@@ -809,10 +809,24 @@ export function MapEmbed() {
 
 /* ================================================================== *
  * IDŐPONTFOGLALÁS — beágyazott Calendly naptár
- * (BOOKING_URL a config.js-ben; amíg 'CSERELD', telefonos fallback jön)
+ *
+ * A BOOKING_URL a config.js-ben van. Amíg nincs VALÓDI, a stúdióhoz
+ * tartozó link, telefonos fallback jelenik meg.
+ *
+ * Miért nem elég a 'CSERELD' vizsgálata: a placeholder helyére egy
+ * fejlesztői Calendly-fiók linkje került, ami átment az ellenőrzésen,
+ * és a naptár működőnek látszott — miközben IDEGEN naptárba foglalt
+ * volna a vendég. Egy rossz link rosszabb, mint a hiányzó: a hiányzót
+ * észreveszed, a rosszat nem.
  * ================================================================== */
+// Kisbetűsen tároljuk, mert a vizsgálat is kisbetűsít.
+const BOOKING_PLACEHOLDERS = ['csereld', 'rizmajermatelewi', 'example.com']
+
 export function Booking() {
-  const ready = BOOKING_URL && !BOOKING_URL.includes('CSERELD')
+  const ready =
+    !!BOOKING_URL &&
+    /^https:\/\/(calendly\.com|[\w-]+\.youcanbook\.me)\//i.test(BOOKING_URL) &&
+    !BOOKING_PLACEHOLDERS.some((p) => BOOKING_URL.toLowerCase().includes(p))
 
   useEffect(() => {
     if (!ready) return

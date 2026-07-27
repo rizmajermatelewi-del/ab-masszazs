@@ -1071,10 +1071,20 @@ function ContactForm() {
   const onSubmit = async (e) => {
     e.preventDefault()
     const form = e.currentTarget
-    // Nincs beállítva Web3Forms-kulcs → imitált küldés, hogy fejlesztés közben is működjön az UI.
+    /* Nincs beállítva Web3Forms-kulcs → NEM imitálunk sikeres küldést.
+     *
+     * Korábban itt egy 1 másodperces késleltetés után 'sent' állapot jött.
+     * Az fejlesztés közben kényelmes, élesben viszont a lehető legrosszabb:
+     * a vendég megírja a panaszát, lát egy visszaigazolást, és a megkeresés
+     * sehova nem érkezik meg. Némán elveszett vendég.
+     *
+     * A `npm run build` preflightja nem is engedi kulcs nélkül élesíteni;
+     * ez az ág a fejlesztői build és a félrekonfigurált deploy hálója. */
     if (!W3F_ACCESS_KEY) {
-      setStatus('sending')
-      setTimeout(() => setStatus('sent'), 1000)
+      console.error(
+        '[AB Masszázs] W3F_ACCESS_KEY nincs beállítva a config.js-ben — az űrlap nem küld sehova.'
+      )
+      setStatus('error')
       return
     }
     setStatus('sending')

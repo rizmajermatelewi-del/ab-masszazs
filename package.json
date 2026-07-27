@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "preflight": "node scripts/preflight.mjs",
+    "prebuild": "node scripts/preflight.mjs",
     "build": "vite build",
+    "build:skip-preflight": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
