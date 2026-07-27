@@ -177,10 +177,10 @@ export function Pricing() {
     <section id="arak" className="py-24 sm:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <SectionHead
-          eyebrow="Árlista"
-          title="Átlátható"
-          accent="árak"
-          sub="Nem kell telefonálnod ahhoz, hogy megtudd, mennyibe kerül. Minden kezelés ára és hossza itt van."
+          eyebrow="Kezelések"
+          title="Kezelések és"
+          accent="időtartamok"
+          sub="Az árat egy rövid telefonbeszélgetésen egyeztetjük — így azt kapod, ami a te panaszodra kell, nem egy csomagot."
         />
 
         <div className="mt-14 grid lg:grid-cols-3 gap-6">
@@ -214,20 +214,25 @@ export function Pricing() {
                           {r.time}
                         </span>
                       </span>
-                      <span className="font-display text-xl font-semibold text-primary whitespace-nowrap">
-                        {r.price}
-                      </span>
+                      {/* Ár csak akkor jelenik meg, ha valóban meg van adva.
+                          Üres price → nem írunk ki semmit, mert a becsült ár
+                          rosszabb, mint a hiányzó. */}
+                      {r.price && (
+                        <span className="font-display text-xl font-semibold text-primary whitespace-nowrap">
+                          {r.price}
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
 
+                {/* Ha van online foglalás, oda visz; ha nincs, telefonál. */}
                 <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noreferrer"
+                  href={BOOKING_URL || `tel:${PHONE_TEL}`}
+                  {...(BOOKING_URL ? { target: '_blank', rel: 'noreferrer' } : {})}
                   className="mt-7 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-primary group/link"
                 >
-                  Foglalok erre
+                  {BOOKING_URL ? 'Foglalok erre' : 'Egyeztetek telefonon'}
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
                 </a>
               </div>
@@ -235,7 +240,9 @@ export function Pricing() {
           ))}
         </div>
 
-        {/* Bérletek */}
+        {/* Bérletek — üres tömb esetén a szekció el sem jelenik, nem marad
+            utána üres rács. */}
+        {PACKAGES.length > 0 && (
         <Reveal delay={150}>
           <div className="mt-8 grid sm:grid-cols-2 gap-4">
             {PACKAGES.map((p) => (
@@ -254,11 +261,12 @@ export function Pricing() {
             ))}
           </div>
         </Reveal>
+        )}
 
         <Reveal delay={200}>
           <p className="mt-8 font-body text-xs text-muted text-center max-w-2xl mx-auto leading-relaxed">
-            A feltüntetett árak tájékoztató jellegűek. Kúraszerű kezelés vagy egyedi igény esetén
-            hívj — megbeszéljük.
+            Az árakról és a kúraszerű kezelésekről telefonon egyeztetünk. Hívj bátran — elmondod,
+            mi a panasz, és megbeszéljük, melyik kezelés való rá.
           </p>
         </Reveal>
       </div>

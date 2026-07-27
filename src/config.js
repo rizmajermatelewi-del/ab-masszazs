@@ -5,46 +5,63 @@
  * ================================================================== */
 
 /* --- Elérhetőség ------------------------------------------------- */
-// Valódi Calendly foglalási link. Ez nyílik meg a gombokra ÉS ez töltődik be a beágyazott naptárba.
-export const BOOKING_URL = 'https://calendly.com/rizmajermatelewi/30min'
+/* Online foglalás EGYELŐRE KIKAPCSOLVA.
+ *
+ * Amíg üres, minden foglalás-gomb telefonhívássá alakul, és a naptár
+ * szekció helyén telefonos egyeztetés jelenik meg. Ez szándékos: jobb
+ * egy működő telefonszám, mint egy naptár, ami rossz fiókra mutat.
+ *
+ * Bekapcsoláshoz: írd be ide anyukád SAJÁT Calendly-linkjét. Semmi mást
+ * nem kell átállítani, az oldal magától átvált. */
+export const BOOKING_URL = ''
 export const PHONE_DISPLAY = '+36 30 635 7807'
 export const PHONE_TEL = '+36306357807'
 export const ADDRESS = '2365 Inárcs, Május 1. utca 12.'
 export const INSTAGRAM_URL = 'https://www.instagram.com/ab.masszazs/'
-// TODO: cseréld a valódi Facebook oldal URL-jére
-export const FACEBOOK_URL = 'https://www.facebook.com/search/top?q=ab%20massz%C3%A1zs'
+// Nincs (még) valódi Facebook oldal. Üresen hagyva az ikon el sem jelenik —
+// ez jobb, mint egy keresési találatra mutató link.
+export const FACEBOOK_URL = ''
 export const MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=2365+In%C3%A1rcs+M%C3%A1jus+1.+utca+12'
 
 /* --- Integrációk / éles beállítások ------------------------------ *
  * Ezeket kell kitölteni, mielőtt élesbe megy az oldal.
  * ------------------------------------------------------------------ */
-// TODO: ingyenes hozzáférési kulcs a https://web3forms.com oldalról (30 mp, e-mail cím kell hozzá).
-// Amíg üres, a kapcsolati űrlap csak IMITÁLJA a küldést — nem megy sehova.
+// Amíg üres, az űrlap helyett telefonos panel jelenik meg — nincs néma adatvesztés.
+// Működő űrlaphoz: ingyenes kulcs a https://web3forms.com oldalról (30 mp).
 export const W3F_ACCESS_KEY = ''
-// TODO: az éles domain, ha már megvan. A canonical, az OG-kép és a sitemap ehhez igazodik.
-export const SITE_URL = 'https://abmasszazs.hu'
+// Ideiglenes Vercel-domain. Amint megvan a .hu domain, itt ÉS az index.html,
+// public/sitemap.xml, public/robots.txt fájlokban is át kell írni (a preflight ellenőrzi).
+export const SITE_URL = 'https://ab-masszazs.vercel.app'
 
-/* --- Nyitvatartás ------------------------------------------------ */
-// TODO: írd át a valós sávokra
+/* --- Nyitvatartás ------------------------------------------------ *
+ * Nincs fix nyitvatartás megadva, mert a stúdió otthon működik és
+ * időpontra. Ez nem hiányosság: kitalált sávokat kiírni rosszabb lenne,
+ * mert egy vendég hiába állítana be rá.
+ * ------------------------------------------------------------------ */
 export const HOURS = [
-  { day: 'Hétfő – Péntek', time: '09:00 – 20:00' },
-  { day: 'Szombat', time: '09:00 – 14:00' },
-  { day: 'Vasárnap', time: 'Egyeztetés szerint' },
+  { day: 'Hétfő – Szombat', time: 'Előre egyeztetett időpontban' },
+  { day: 'Vasárnap', time: 'Zárva' },
 ]
 
 /* --- Árlista ------------------------------------------------------
- * FIGYELEM: ezek BECSÜLT árak, nem a valódiak. Élesítés előtt
- * mindenképp írd át őket.
+ * AZ ÁRAKAT SZÁNDÉKOSAN NEM ÍRJUK KI. A `price` mezők üresek, így a
+ * kártyákon csak a kezelés neve és hossza jelenik meg, mellette a
+ * telefonos egyeztetés.
+ *
+ * Amint megvannak a valódi árak, elég ide beírni őket — a komponens
+ * magától megjeleníti, nem kell kódot módosítani.
+ *
+ * Becsült árat kiírni tilos: az ügyfél azon az áron érkezne.
  * ------------------------------------------------------------------ */
 export const PRICING = [
   {
     name: 'Svédmasszázs',
     blurb: 'Klasszikus izomlazítás — a leggyakrabban választott kezelés.',
     rows: [
-      { label: 'Részmasszázs (hát, nyak, váll)', time: '30 perc', price: '8 000 Ft' },
-      { label: 'Teljes testmasszázs', time: '60 perc', price: '13 000 Ft' },
-      { label: 'Teljes test + talp', time: '90 perc', price: '18 000 Ft' },
+      { label: 'Részmasszázs (hát, nyak, váll)', time: '30 perc', price: '' },
+      { label: 'Teljes testmasszázs', time: '60 perc', price: '' },
+      { label: 'Teljes test + talp', time: '90 perc', price: '' },
     ],
   },
   {
@@ -52,25 +69,22 @@ export const PRICING = [
     blurb: 'Ízületstimuláló, egésztestes japán technika a szimmetriáért.',
     featured: true,
     rows: [
-      { label: 'Yumeiho kezelés', time: '60 perc', price: '15 000 Ft' },
-      { label: 'Yumeiho + nyújtás', time: '90 perc', price: '20 000 Ft' },
+      { label: 'Yumeiho kezelés', time: '60 perc', price: '' },
+      { label: 'Yumeiho + nyújtás', time: '90 perc', price: '' },
     ],
   },
   {
     name: 'Talpreflexológia',
     blurb: 'A talp reflexzónáin keresztül az egész szervezetre hat.',
     rows: [
-      { label: 'Talpkezelés', time: '30 perc', price: '7 000 Ft' },
-      { label: 'Talpkezelés mélyebben', time: '60 perc', price: '12 000 Ft' },
+      { label: 'Talpkezelés', time: '30 perc', price: '' },
+      { label: 'Talpkezelés mélyebben', time: '60 perc', price: '' },
     ],
   },
 ]
 
-// TODO: valós bérletárak
-export const PACKAGES = [
-  { label: '5 alkalmas bérlet', note: 'egy kezeléstípusra', price: '−10%' },
-  { label: '10 alkalmas bérlet', note: 'szabadon felhasználható', price: '−15%' },
-]
+// Bérletárak: amint megvannak, ide kerülnek. Üres tömb esetén a szekció el sem jelenik.
+export const PACKAGES = []
 
 /* --- Galéria ------------------------------------------------------
  * Jelenleg Unsplash-fotók. Amint vannak saját képeid a kezelőről,

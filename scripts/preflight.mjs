@@ -36,25 +36,39 @@ const strVal = (name) => {
   return m ? m[1] : null
 }
 
-/* --- 1. Foglalási link ------------------------------------------- */
+/* --- 1. Foglalási link ------------------------------------------- *
+ * TELEFONOS MÓD: az üres BOOKING_URL megengedett — ilyenkor minden
+ * foglalás-gomb telefonhívássá alakul. Ez tudatos döntés, nem hiba.
+ * Amit viszont MEG KELL fogni: egy kitöltött, de rossz fiókra mutató
+ * link, mert az működőnek látszik.
+ * ------------------------------------------------------------------ */
 const booking = strVal('BOOKING_URL')
-if (!booking || booking.includes('CSERELD')) {
-  fail('BOOKING_URL', 'nincs beállítva', 'Írd be anyukád saját Calendly-linkjét a config.js-be.')
-} else if (/rizmajermatelewi/i.test(booking)) {
-  fail(
-    'BOOKING_URL',
-    `IDEGEN FIÓKRA mutat: ${booking}`,
-    'Ez a te saját Calendly-fiókod, nem a stúdióé. Aki foglal, hozzád foglal. Cseréld le.'
-  )
+if (booking) {
+  if (booking.includes('CSERELD')) {
+    fail('BOOKING_URL', 'placeholder maradt benne', 'Írd be a valódi linket, vagy hagyd üresen.')
+  } else if (/rizmajermatelewi/i.test(booking)) {
+    fail(
+      'BOOKING_URL',
+      `IDEGEN FIÓKRA mutat: ${booking}`,
+      'Ez a te saját Calendly-fiókod, nem a stúdióé. Aki foglal, hozzád foglal. Cseréld le, vagy hagyd üresen — telefonos módban az oldal enélkül is teljes.'
+    )
+  } else if (!/^https:\/\//i.test(booking)) {
+    fail('BOOKING_URL', 'nem https-sel kezdődik', 'Teljes URL kell, https-sel.')
+  }
+} else {
+  warn('BOOKING_URL', 'üres — telefonos mód', 'Az oldal telefonhívásra vált. Ez rendben van.')
 }
 
-/* --- 2. Kapcsolati űrlap ----------------------------------------- */
+/* --- 2. Kapcsolati űrlap ----------------------------------------- *
+ * Kulcs nélkül az űrlap helyén telefonos panel jelenik meg, tehát nincs
+ * néma adatvesztés. Ezért figyelmeztetés, nem hiba.
+ * ------------------------------------------------------------------ */
 const w3f = strVal('W3F_ACCESS_KEY')
 if (!w3f) {
-  fail(
+  warn(
     'W3F_ACCESS_KEY',
-    'üres — az űrlap nem küld sehova',
-    'Szerezz ingyenes kulcsot a https://web3forms.com oldalról (30 mp, e-mail cím kell).'
+    'üres — az űrlap helyett telefonos panel jelenik meg',
+    'Ha kell működő űrlap: ingyenes kulcs a https://web3forms.com oldalról (30 mp).'
   )
 }
 
@@ -68,13 +82,20 @@ if (fb && /facebook\.com\/search/i.test(fb)) {
   )
 }
 
-/* --- 4. Árak és nyitvatartás ------------------------------------- */
+/* --- 4. Árak ------------------------------------------------------ *
+ * Üres ár = "telefonon egyeztetjük", ez megengedett. Amit tilos: BECSÜLT
+ * árat kiírni valódiként, mert az ügyfél azon az áron érkezik.
+ * ------------------------------------------------------------------ */
 if (/FIGYELEM: ezek BECSÜLT árak/.test(config)) {
   fail(
     'PRICING',
     'a becsült árakra figyelmeztető megjegyzés még bent van',
-    'Írd át a valódi árakra, majd töröld a figyelmeztető kommentet a config.js-ből.'
+    'Írd át a valódi árakra és töröld a kommentet, vagy ürítsd ki a price mezőket (telefonos ár).'
   )
+}
+const priced = [...config.matchAll(/price:\s*'([^']*)'/g)].map((m) => m[1])
+if (priced.length && priced.every((p) => p === '')) {
+  warn('PRICING', 'egyetlen ár sincs kiírva — telefonos ármegadás', 'Ez rendben van.')
 }
 if (/\/\/ TODO: írd át a valós sávokra/.test(config)) {
   fail('HOURS', 'a nyitvatartás még a minta érték', 'Írd át a valós sávokra, majd töröld a TODO-t.')

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://abmasszazs.hu/sitemap.xml
+Sitemap: https://ab-masszazs.vercel.app/sitemap.xml

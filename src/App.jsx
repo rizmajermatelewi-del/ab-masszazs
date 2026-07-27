@@ -1181,7 +1181,33 @@ function ContactForm() {
           {/* Jobb oldal — űrlap */}
           <div className="lg:col-span-7">
             <div className="rounded-4xl bg-background border border-divider p-6 sm:p-10">
-              {status === 'sent' ? (
+              {/* Nincs Web3Forms-kulcs → nem mutatunk űrlapot, amit úgysem
+                  lehet elküldeni. Helyette a valóban működő csatornák.
+                  Amint a kulcs bekerül a config.js-be, az űrlap magától
+                  visszajön — nem kell kódot módosítani. */}
+              {!W3F_ACCESS_KEY ? (
+                <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
+                  <h3 className="font-display text-3xl font-semibold">Írj vagy hívj</h3>
+                  <p className="mt-3 max-w-sm font-body text-sm text-muted leading-relaxed">
+                    Mondd el pár mondatban, mi a panasz, és megbeszéljük, melyik kezelés való rá.
+                  </p>
+                  <a
+                    href={`tel:${PHONE_TEL}`}
+                    className="mt-8 inline-flex items-center justify-center rounded-2xl bg-primary px-8 py-4 font-display text-lg font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:-translate-y-0.5"
+                  >
+                    {PHONE_DISPLAY}
+                  </a>
+                  <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 font-body text-sm font-semibold text-primary underline underline-offset-4"
+                  >
+                    Vagy írj Instagramon
+                  </a>
+                  <p className="mt-8 font-body text-xs text-muted">{ADDRESS}</p>
+                </div>
+              ) : status === 'sent' ? (
                 <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                   <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-accent/20">
                     <CheckCircle2 className="h-8 w-8 text-accent-dark" strokeWidth={2.2} />
