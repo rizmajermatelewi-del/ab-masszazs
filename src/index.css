@@ -129,3 +129,105 @@
     clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
   }
 }
+
+/* ==================================================================
+ * INTERAKCIÓ — globális réteg
+ * Minden kattintható elemre érvényes, komponensenkénti módosítás
+ * nélkül. Ha új gomb vagy link kerül az oldalra, automatikusan
+ * megkapja a hover-, fókusz- és lenyomás-visszajelzést.
+ * ================================================================== */
+@layer base {
+  a,
+  button,
+  summary,
+  label[for],
+  [role='button'],
+  input[type='submit'] {
+    transition:
+      color 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      background-color 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      border-color 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  a,
+  button:not(:disabled),
+  summary,
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  /* Lenyomás-visszajelzés — érintésen ez pótolja a hovert */
+  a:active,
+  button:not(:disabled):active,
+  [role='button']:active {
+    transform: scale(0.985);
+  }
+
+  button:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  /* Billentyűzetes fókusz: mindig látható, egérrel nem zavaró.
+     Enélkül a billentyűzettel navigáló vendég nem látja, hol jár. */
+  :focus-visible {
+    outline: 3px solid #6d3f76;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .glass-dark :focus-visible,
+  .bg-ink :focus-visible {
+    outline-color: #d9a441;
+  }
+
+  /* Érintőképernyőn a kattintható elem legyen legalább 44px magas */
+  @media (pointer: coarse) {
+    a,
+    button,
+    [role='button'] {
+      min-height: 44px;
+    }
+  }
+
+  /* Galériaképek ne legyenek véletlenül elhúzhatók */
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+}
+
+/* ==================================================================
+ * CSÖKKENTETT MOZGÁS
+ * Aki a rendszerében kikapcsolta az animációkat, ne üres oldalt
+ * lásson. A GSAP belépő animációk opacity:0-ról indulnak; ha egy
+ * ScrollTrigger nem sül el, a tartalom láthatatlan maradna. Az alábbi
+ * felülírás ezt fogja meg — inkább animáció nélkül, mint sehogy.
+ * ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [style*='opacity: 0'],
+  [style*='opacity:0'] {
+    opacity: 1 !important;
+  }
+
+  .magnetic-btn:hover,
+  .lift-on-hover:hover {
+    transform: none;
+  }
+
+  .ring-pulse {
+    animation: none;
+  }
+}
