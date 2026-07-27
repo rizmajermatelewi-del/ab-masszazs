@@ -942,9 +942,11 @@ function ServicesGrid() {
       <div className="mt-14 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 rounded-3xl overflow-hidden">
           {SERVICES.map((s) => (
-            <div
+            <a
               key={s.title}
-              className="svc-tile group relative overflow-hidden bg-deep p-8 sm:p-10 transition-colors duration-500 hover:bg-white/[0.05]"
+              href="#reszletek"
+              aria-label={`${s.title} — részletek`}
+              className="svc-tile group relative block overflow-hidden bg-deep p-8 sm:p-10 transition-colors duration-500 hover:bg-white/[0.05]"
             >
               {/* felső fénysáv hoveren */}
               <span className="absolute inset-x-0 top-0 h-px w-0 bg-gradient-to-r from-transparent via-accent to-transparent transition-all duration-700 group-hover:w-full" />
@@ -960,7 +962,7 @@ function ServicesGrid() {
               <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-accent opacity-0 -translate-x-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">
                 Részletek <ArrowRight className="h-3 w-3" />
               </span>
-            </div>
+            </a>
           ))}
         </div>
 
