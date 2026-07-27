@@ -10,7 +10,7 @@ export const BOOKING_URL = 'https://calendly.com/rizmajermatelewi/30min'
 export const PHONE_DISPLAY = '+36 30 635 7807'
 export const PHONE_TEL = '+36306357807'
 export const ADDRESS = '2365 Inárcs, Május 1. utca 12.'
-export const INSTAGRAM_URL = 'https://www.instagram.com/abmasszazs/'
+export const INSTAGRAM_URL = 'https://www.instagram.com/ab.masszazs/'
 // TODO: cseréld a valódi Facebook oldal URL-jére
 export const FACEBOOK_URL = 'https://www.facebook.com/search/top?q=ab%20massz%C3%A1zs'
 export const MAPS_URL =
