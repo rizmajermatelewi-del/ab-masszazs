@@ -23,6 +23,24 @@ const DAY_NAMES = {
   Vasárnap: 'Sunday',
 }
 
+/* Throws rather than passing the Hungarian through. "Hétfő–Péntek" is the most
+   natural way for her to write her hours, and it is not a schema.org DayOfWeek —
+   but nothing on the page would look wrong, so a fallthrough would publish
+   invalid structured data that no human ever sees. Same rule as the address
+   guard below: no listing beats a wrong listing. If she gives a range, it gets
+   expanded into individual days in business.js, which is where the display text
+   comes from too. */
+function dayOfWeek(day) {
+  const mapped = DAY_NAMES[day]
+  if (!mapped) {
+    throw new Error(
+      `Unknown day name in BUSINESS.hours: ${JSON.stringify(day)}. ` +
+        `Use one weekday per entry, spelled: ${Object.keys(DAY_NAMES).join(', ')}.`,
+    )
+  }
+  return mapped
+}
+
 export function buildLocalBusinessJsonLd(origin) {
   /* No address means no listing. A LocalBusiness entry without a location is
      not a weaker listing, it is an invalid one, and publishing invalid
@@ -44,7 +62,7 @@ export function buildLocalBusinessJsonLd(origin) {
     },
     openingHoursSpecification: BUSINESS.hours.map(({ day, opens, closes }) => ({
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: DAY_NAMES[day] ?? day,
+      dayOfWeek: dayOfWeek(day),
       opens,
       closes,
     })),

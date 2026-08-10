@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, it, expect, vi } from 'vitest'
 import { buildLocalBusinessJsonLd, ROUTES } from './seo'
 import { BUSINESS } from './business'
@@ -13,8 +15,29 @@ const FILLED = {
 }
 
 describe('structured data', () => {
+  /* Reading routes.jsx rather than restating its paths here. Repeating the list
+     would only prove this file agrees with itself; the drift that costs
+     something is a route added to the app and forgotten here, which ships that
+     page to crawlers as an empty <div id="root"> on a site whose whole job is
+     being found. */
   it('lists exactly the routes the app answers', () => {
-    expect(ROUTES).toEqual(['/', '/adatvedelem'])
+    /* resolve() from the project root, not import.meta.url: vitest serves test
+       modules over http, so import.meta.url is not a file: URL here. */
+    const source = readFileSync(resolve(process.cwd(), 'src/routes.jsx'), 'utf8')
+    const declared = [...source.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1])
+    expect(declared.length).toBeGreaterThan(0)
+    expect([...ROUTES].sort()).toEqual([...declared].sort())
+  })
+
+  it('refuses to publish a day name schema.org does not know', async () => {
+    vi.resetModules()
+    vi.doMock('./business', () => ({
+      BUSINESS: { ...FILLED, hours: [{ day: 'Hétfő–Péntek', opens: '09:00', closes: '18:00' }] },
+      missingFacts: () => [],
+    }))
+    vi.doMock('./services', () => ({ SERVICES: [] }))
+    const { buildLocalBusinessJsonLd: build } = await import('./seo')
+    expect(() => build('https://example.pages.dev')).toThrow(/Hétfő–Péntek/)
   })
 
   it('refuses to emit a listing without an address', () => {
