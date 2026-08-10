@@ -20,6 +20,15 @@ if (!origin) {
 }
 
 const template = readFileSync(path.join(root, 'dist/index.html'), 'utf8')
+
+/* dist/index.html is both the template and route "/"'s output. Run this twice
+   without a vite build in between -- a retried deploy, a manual re-run -- and
+   the second pass reads its own output: the JSON-LD is duplicated and the home
+   page's markup is written over every other route's file. Cheaper to refuse. */
+if (!template.includes('<div id="root"></div>')) {
+  console.error('dist/index.html has already been prerendered. Run `vite build` first.')
+  process.exit(1)
+}
 const { render } = await import(pathToFileURL(path.join(root, 'dist-ssr/entry-server.js')).href)
 const { ROUTES, metaFor, buildLocalBusinessJsonLd } = await import(
   pathToFileURL(path.join(root, 'src/data/seo.js')).href
@@ -32,22 +41,27 @@ for (const route of ROUTES) {
   const { title, description, index } = metaFor(route)
   const url = route === '/' ? `${origin}/` : `${origin}${route}`
 
+  /* Every replacement is a function, not a string: in a replacement string "$&"
+     and "$'" are substitution patterns, so a tagline containing one would splice
+     part of the document into the head. escapeAttr does not neutralise them --
+     it turns "&" into "&amp;", which still starts with "$&" when preceded by a
+     dollar sign. */
   let page = template
-    .replace('<div id="root"></div>', `<div id="root">${markup}</div>`)
-    .replace(/<title>[^<]*<\/title>/, `<title>${escapeAttr(title)}</title>`)
+    .replace('<div id="root"></div>', () => `<div id="root">${markup}</div>`)
+    .replace(/<title>[^<]*<\/title>/, () => `<title>${escapeAttr(title)}</title>`)
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
-      `<meta name="description" content="${escapeAttr(description)}" />`,
+      () => `<meta name="description" content="${escapeAttr(description)}" />`,
     )
     .replace(
       /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/,
-      `<link rel="canonical" href="${escapeAttr(url)}" />`,
+      () => `<link rel="canonical" href="${escapeAttr(url)}" />`,
     )
 
   /* The tájékoztató has no business in search results: it competes with the
      page that should rank and says nothing a searcher wants. */
   if (!index) {
-    page = page.replace('</head>', '  <meta name="robots" content="noindex" />\n  </head>')
+    page = page.replace('</head>', () => '  <meta name="robots" content="noindex" />\n  </head>')
   }
 
   if (route === '/') {
@@ -56,7 +70,7 @@ for (const route of ROUTES) {
       const json = JSON.stringify(ld).replace(/</g, '\\u003c')
       page = page.replace(
         '</head>',
-        `  <script type="application/ld+json">${json}</script>\n  </head>`,
+        () => `  <script type="application/ld+json">${json}</script>\n  </head>`,
       )
     }
   }
