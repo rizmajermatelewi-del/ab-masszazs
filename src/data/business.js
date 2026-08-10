@@ -28,8 +28,11 @@ export const BUSINESS = {
 }
 
 /* The facts a launch cannot proceed without. Kept next to the data rather than
-   in the build script, so the rule lives with what it describes. */
-const REQUIRED = ['name', 'city', 'street', 'postalCode', 'phone']
+   in the build script, so the rule lives with what it describes.
+
+   legalName is here because spec §9 lists it: it goes in the footer and in the
+   adatvédelmi tájékoztató, which has to name the actual data controller. */
+const REQUIRED = ['name', 'legalName', 'city', 'street', 'postalCode', 'phone']
 
 export function missingFacts() {
   const missing = REQUIRED.filter((key) => !BUSINESS[key].trim())

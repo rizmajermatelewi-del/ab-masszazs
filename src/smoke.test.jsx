@@ -12,6 +12,9 @@ describe('app shell', () => {
         <AppRoutes />
       </MemoryRouter>,
     )
-    expect(screen.getAllByText('AB Masszázs').length).toBeGreaterThan(0)
+    /* Twice, not "at least once": the header wordmark and the hero h1 both fall
+       back to it while BUSINESS.name is empty. A count that cannot fail would
+       leave this test asserting only that getAllByText did not throw. */
+    expect(screen.getAllByText('AB Masszázs')).toHaveLength(2)
   })
 })

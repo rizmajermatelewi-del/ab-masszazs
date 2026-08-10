@@ -12,12 +12,19 @@ export default function Visit() {
   const hasAddress = Boolean(BUSINESS.street && BUSINESS.city)
   const address = `${BUSINESS.postalCode} ${BUSINESS.city}, ${BUSINESS.street}`.trim()
 
+  /* Without this the wrapper still paints a tinted, 128px-tall empty stripe when
+     none of the three blocks has data. check-content.mjs happens to require all
+     three fields today, so that stripe cannot reach production -- but that is a
+     coincidence between two files, and this section should not depend on it. */
+  if (!hasAddress && !BUSINESS.hours.length && !BUSINESS.phone) return null
+
   return (
     <section id="elerhetoseg" className="bg-stone-50 px-5 py-16 sm:py-24">
+      <h2 className="sr-only">Elérhetőség</h2>
       <div className="mx-auto grid max-w-3xl gap-10 sm:grid-cols-2">
         {hasAddress ? (
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-widest text-stone-500">Cím</h2>
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-stone-500">Cím</h3>
             <p className="mt-3 text-lg text-stone-900">{address}</p>
             {BUSINESS.mapsUrl ? (
               <a
@@ -34,9 +41,9 @@ export default function Visit() {
 
         {BUSINESS.hours.length ? (
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-widest text-stone-500">
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-stone-500">
               Nyitvatartás
-            </h2>
+            </h3>
             <dl className="mt-3 space-y-1">
               {BUSINESS.hours.map(({ day, opens, closes }) => (
                 <div key={day} className="flex justify-between gap-6 text-stone-900">
@@ -50,9 +57,9 @@ export default function Visit() {
 
         {BUSINESS.phone ? (
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-widest text-stone-500">
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-stone-500">
               Időpontért
-            </h2>
+            </h3>
             {/* Phase 1 has no booking flow. Until Phase 2 replaces this block,
                 the honest call to action is her telephone number. */}
             <a

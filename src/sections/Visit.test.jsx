@@ -7,12 +7,16 @@ const EMPTY = {
 }
 
 describe('Visit', () => {
-  it('omits the address block when there is no address', async () => {
+  /* Not just "no heading": the whole section has to go. Its wrapper carries a
+     tinted background and 128px of vertical padding, so leaving it behind paints
+     an empty stripe that reads as a half-finished page (spec §5). */
+  it('disappears entirely when it has no address, hours or phone', async () => {
     vi.resetModules()
     vi.doMock('../data/business', () => ({ BUSINESS: EMPTY, missingFacts: () => [] }))
     const { default: Visit } = await import('./Visit.jsx')
-    render(<Visit />)
+    const { container } = render(<Visit />)
     expect(screen.queryByText('Cím')).toBe(null)
+    expect(container.firstChild).toBe(null)
   })
 
   it('shows the address, the hours and a dialable phone number when present', async () => {
