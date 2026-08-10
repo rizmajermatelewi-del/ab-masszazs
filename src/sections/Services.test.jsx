@@ -22,8 +22,10 @@ describe('Services', () => {
       ],
     }))
     const { default: Services } = await import('./Services.jsx')
-    render(<Services />)
+    const { container } = render(<Services />)
     expect(screen.getByText('Svédmasszázs')).toBeTruthy()
+    // the second fixture has no description; it must not leave an empty paragraph
+    expect(container.querySelectorAll('p')).toHaveLength(1)
     expect(screen.getByText('60 perc')).toBeTruthy()
     /* getByText's default normalizer collapses all whitespace -- including
        non-breaking spaces -- to a plain space before comparing, but it does
