@@ -4,8 +4,8 @@ import Home from './pages/Home.jsx'
 import Privacy from './pages/Privacy.jsx'
 import { metaFor } from './data/seo.js'
 
-/* Task 8 adds src/data/seo.js, listing both paths as ROUTES for the prerender
-   script to walk. Once it exists, adding a route here means adding it there too,
+/* Both paths also live in src/data/seo.js as ROUTES, which the prerender script
+   walks to write the HTML files. Adding a route here means adding it there too,
    or the new page ships with no prerendered markup. */
 
 /* The prerender script sets <title> and the description once, at build time,
