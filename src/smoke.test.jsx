@@ -12,6 +12,6 @@ describe('app shell', () => {
         <AppRoutes />
       </MemoryRouter>,
     )
-    expect(screen.getByText('AB Masszázs')).toBeTruthy()
+    expect(screen.getAllByText('AB Masszázs').length).toBeGreaterThan(0)
   })
 })
