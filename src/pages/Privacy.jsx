@@ -21,16 +21,24 @@ export default function Privacy() {
           Ez az oldal jelenleg <strong>nem gyűjt</strong> személyes adatot: nincs rajta űrlap,
           hírlevél-feliratkozás, sem látogatottság-mérő. Saját sütit nem helyez el a böngésződben.
         </p>
-        <p>
-          Ha időpontot szeretnél, telefonon tudsz jelentkezni. A hívás során megadott adatokat
-          {owner ? ` ${owner} ` : ' a szolgáltató '}
-          kizárólag az időpont egyeztetésére használja.
-        </p>
-        <p>
-          Az oldalt tárhelyszolgáltató szolgálja ki, amely üzemeltetési célból naplózhatja a
-          kéréseket (például IP-cím, böngésző típusa). Ezekhez az oldal üzemeltetője azonosítható
-          formában nem fér hozzá.
-        </p>
+        {BUSINESS.phone ? (
+          <p>
+            Ha időpontot szeretnél, telefonon tudsz jelentkezni. A hívás során megadott adatokat
+            {owner ? ` ${owner} ` : ' a szolgáltató '}
+            kizárólag az időpont egyeztetésére használja.
+          </p>
+        ) : null}
+        {/* Named, not described in the abstract: the host sees the request logs,
+            so it is a processor and Hungarian practice expects it by name. The
+            paragraph stays out entirely until the host is chosen, and it makes no
+            claim about who can read those logs — that depends on the provider's
+            settings and nobody has configured them yet. */}
+        {BUSINESS.hostingProvider ? (
+          <p>
+            Az oldalt a(z) {BUSINESS.hostingProvider} szolgálja ki, amely üzemeltetési célból
+            naplózhatja a kéréseket (például IP-cím, böngésző típusa).
+          </p>
+        ) : null}
         <p>
           Amint online időpontfoglalás indul, ez a tájékoztató kiegészül azzal, hogy a foglaláshoz
           megadott név, telefonszám és e-mail cím hogyan kerül kezelésre.

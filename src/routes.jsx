@@ -2,9 +2,9 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Privacy from './pages/Privacy.jsx'
 
-/* Both paths also live in src/data/seo.js as ROUTES, which the prerender script
-   walks to write the HTML files. Adding a route means adding it there too, or
-   it ships with no prerendered markup. */
+/* Task 8 adds src/data/seo.js, listing both paths as ROUTES for the prerender
+   script to walk. Once it exists, adding a route here means adding it there too,
+   or the new page ships with no prerendered markup. */
 export function AppRoutes() {
   return (
     <Routes>

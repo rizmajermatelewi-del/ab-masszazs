@@ -23,6 +23,11 @@ export const BUSINESS = {
      third-party cookies, which would drag a consent banner onto a site that
      otherwise needs none (spec §7). */
   mapsUrl: '',
+  /* The tárhelyszolgáltató, named in the adatvédelmi tájékoztató because it is
+     a processor: it sees the request logs. Empty until the host is actually
+     chosen (spec §3 leaves it between Cloudflare Pages and Netlify), and the
+     privacy page says nothing about hosting until it is filled. */
+  hostingProvider: '',
   /* e.g. { day: 'Hétfő', opens: '09:00', closes: '18:00' } */
   hours: [],
 }
@@ -32,7 +37,15 @@ export const BUSINESS = {
 
    legalName is here because spec §9 lists it: it goes in the footer and in the
    adatvédelmi tájékoztató, which has to name the actual data controller. */
-const REQUIRED = ['name', 'legalName', 'city', 'street', 'postalCode', 'phone']
+const REQUIRED = [
+  'name',
+  'legalName',
+  'city',
+  'street',
+  'postalCode',
+  'phone',
+  'hostingProvider',
+]
 
 export function missingFacts() {
   const missing = REQUIRED.filter((key) => !BUSINESS[key].trim())
