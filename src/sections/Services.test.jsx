@@ -24,8 +24,11 @@ describe('Services', () => {
     const { default: Services } = await import('./Services.jsx')
     const { container } = render(<Services />)
     expect(screen.getByText('Svédmasszázs')).toBeTruthy()
-    // the second fixture has no description; it must not leave an empty paragraph
-    expect(container.querySelectorAll('p')).toHaveLength(1)
+    /* Scoped to the list, not the whole section: the section heading now has
+       its own eyebrow paragraph, and counting that too would make this assert
+       the layout rather than the thing it cares about -- that a treatment with
+       no description leaves no empty paragraph behind. */
+    expect(container.querySelectorAll('ul p')).toHaveLength(1)
     expect(screen.getByText('60 perc')).toBeTruthy()
     /* getByText's default normalizer collapses all whitespace -- including
        non-breaking spaces -- to a plain space before comparing, but it does

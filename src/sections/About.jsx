@@ -1,26 +1,34 @@
-import PhotoSlot from '../components/PhotoSlot.jsx'
+import { ABOUT } from '../data/content'
+import ImageReveal from '../components/ImageReveal.jsx'
+import Reveal from '../components/Reveal.jsx'
 
-/* The text is deliberately absent until she writes it in her own words. A
-   generated "passionate about wellness" paragraph is the most obvious tell of a
-   template site, and she is the only person who can say why someone should lie
-   on her table. */
-export const ABOUT_TEXT = ''
+/* Asymmetric on purpose: a tall portrait holding the left third against a
+   narrow column of text, rather than two equal halves. Equal halves are what
+   makes an "about" section look like a template slide.
 
+   The text is absent until she writes it in her own words. A generated
+   "passionate about wellness" paragraph is the most obvious tell of a template
+   site, and she is the only person who can say why someone should lie on her
+   table. */
 export default function About() {
-  if (!ABOUT_TEXT) return null
+  if (!ABOUT.text) return null
 
   return (
-    <section className="px-5 py-16 sm:px-8 sm:py-20">
-      <div className="mx-auto grid max-w-4xl items-center gap-12 sm:grid-cols-[2fr_1fr] sm:gap-x-16">
-        <div>
-          <h2 className="text-3xl tracking-tight text-ink sm:text-4xl">Rólam</h2>
-          <p className="mt-8 max-w-prose whitespace-pre-line leading-relaxed text-muted">
-            {ABOUT_TEXT}
-          </p>
-        </div>
-        <div className="aspect-[3/4] overflow-hidden rounded-2xl">
-          <PhotoSlot src="" alt="" label="Portré" />
-        </div>
+    <section id="rolam" className="px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto grid max-w-6xl items-end gap-12 md:grid-cols-[1fr_1.4fr] md:gap-20">
+        <ImageReveal
+          src={ABOUT.image}
+          alt={ABOUT.imageAlt}
+          label="Portré"
+          className="aspect-[3/4] rounded-shell"
+        />
+
+        <Reveal delay={80}>
+          <p className="text-[10px] font-medium uppercase tracking-label text-faint">Rólam</p>
+          <div className="mt-6 max-w-prose whitespace-pre-line text-lg leading-relaxed text-muted">
+            {ABOUT.text}
+          </div>
+        </Reveal>
       </div>
     </section>
   )

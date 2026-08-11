@@ -1,29 +1,29 @@
 import { useEffect, useState } from 'react'
 import { BUSINESS } from '../data/business'
+import { visibleSections } from '../data/navigation'
+import BookingButton from '../components/BookingButton.jsx'
 
-const LINKS = [
-  { href: '#szolgaltatasok', label: 'Szolgáltatások' },
-  { href: '#elerhetoseg', label: 'Elérhetőség' },
-]
+/* Transparent over the hero, then a paper wash and a hairline once the page has
+   moved. It compacts rather than changing shape, so nothing under it jumps.
 
-/* A floating glass pill, detached from the top edge, rather than a bar glued
-   across it. The page reads as a sheet of paper that the navigation hovers
-   over.
-
-   The full-screen menu is phone-only. On a two-link site a hamburger on desktop
-   would be hiding navigation for no reason -- the links fit, so they stay
-   visible. It exists below `sm` because at 375px two Hungarian labels plus the
-   business name genuinely do not fit on one line without shrinking all three
-   below a comfortable tap target.
-
-   Note the menu deliberately does NOT repeat the business name: it appears
-   exactly twice on the page (this pill and the h1), and a third copy would be
-   noise for a screen-reader user reading the document in order. */
+   The links come from visibleSections(), never from a list written here: every
+   section on this page removes itself while its content is missing, and a
+   hand-kept menu would keep pointing at the ones that are gone. */
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const sections = visibleSections()
 
-  /* A fixed overlay over a scrollable body scrolls the page behind it, which
-     feels broken on iOS in particular. */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    /* passive: this listener only reads scrollY and never calls
+       preventDefault, so telling the browser that keeps it off the
+       scroll-blocking path. */
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   useEffect(() => {
     if (!open) return undefined
     const previous = document.body.style.overflow
@@ -33,7 +33,6 @@ export default function Header() {
     }
   }, [open])
 
-  /* Escape closes it. A full-screen overlay with no keyboard way out is a trap. */
   useEffect(() => {
     if (!open) return undefined
     const onKey = (event) => {
@@ -44,89 +43,91 @@ export default function Header() {
   }, [open])
 
   return (
-    <header className="pointer-events-none sticky top-0 z-30 px-4 pt-5 sm:pt-6">
-      {/* relative z-30 keeps the pill -- and therefore the close button -- above
-          the overlay below it. Without it the overlay paints over the only
-          control that dismisses it, and the menu becomes a trap on a phone. */}
-      <div className="pointer-events-auto relative z-30 mx-auto flex w-full max-w-4xl items-center justify-between gap-3 rounded-full border border-ink/[0.06] bg-paper/70 p-1.5 pl-5 shadow-lift backdrop-blur-xl sm:w-max sm:gap-8 sm:pl-7">
+    <header
+      className={`fixed inset-x-0 top-0 z-30 transition-[background-color,border-color,padding] duration-700 ease-fluid ${
+        scrolled
+          ? 'border-b border-line/70 bg-paper/80 py-1 backdrop-blur-xl'
+          : 'border-b border-transparent py-3'
+      }`}
+    >
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
         <a
-          href="/"
-          className="inline-flex min-h-[44px] items-center font-display text-base tracking-tight text-ink transition-colors duration-500 ease-fluid hover:text-clay"
+          href="#kezdolap"
+          className="relative z-10 inline-flex min-h-[44px] items-center font-display text-base tracking-tight text-ink"
         >
           {BUSINESS.name || 'AB Masszázs'}
         </a>
 
-        <nav className="hidden items-center gap-8 pr-4 text-sm text-muted sm:flex">
-          {LINKS.map(({ href, label }) => (
+        <nav className="hidden items-center gap-7 lg:flex">
+          {sections.map(({ id, label }) => (
             <a
-              key={href}
-              href={href}
-              className="inline-flex min-h-[44px] items-center transition-colors duration-500 ease-fluid hover:text-clay"
+              key={id}
+              href={`#${id}`}
+              className="group inline-flex min-h-[44px] items-center text-sm text-muted transition-colors duration-500 ease-fluid hover:text-ink"
             >
-              {label}
+              <span className="relative">
+                {label}
+                {/* Underline grows from the left rather than fading in, so the
+                    hover reads as a direction instead of a state change. */}
+                <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-clay transition-transform duration-500 ease-fluid group-hover:scale-x-100" />
+              </span>
             </a>
           ))}
         </nav>
 
-        {/* The hamburger's two rules rotate and converge into an X rather than
-            swapping for a different icon, so the control keeps its identity
-            through the change. */}
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-label={open ? 'Menü bezárása' : 'Menü megnyitása'}
-          onClick={() => setOpen((value) => !value)}
-          className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink/[0.04] transition-transform duration-500 ease-fluid active:scale-95 sm:hidden"
-        >
-          <span
-            className={`absolute h-px w-4 bg-ink transition-transform duration-500 ease-fluid ${
-              open ? 'rotate-45' : '-translate-y-[3px]'
-            }`}
-          />
-          <span
-            className={`absolute h-px w-4 bg-ink transition-transform duration-500 ease-fluid ${
-              open ? '-rotate-45' : 'translate-y-[3px]'
-            }`}
-          />
-        </button>
+        <div className="flex items-center gap-3">
+          <BookingButton variant="compact" className="hidden sm:inline-flex" />
+
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-label={open ? 'Menü bezárása' : 'Menü megnyitása'}
+            onClick={() => setOpen((value) => !value)}
+            className="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink/[0.05] transition-transform duration-500 ease-fluid active:scale-95 lg:hidden"
+          >
+            <span
+              className={`absolute h-px w-4 bg-ink transition-transform duration-500 ease-fluid ${
+                open ? 'rotate-45' : '-translate-y-[3px]'
+              }`}
+            />
+            <span
+              className={`absolute h-px w-4 bg-ink transition-transform duration-500 ease-fluid ${
+                open ? '-rotate-45' : 'translate-y-[3px]'
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
-      {/* Kept mounted so the links can animate out as well as in; visibility is
-          what removes it from the tab order when closed. */}
       <div
-        className={`fixed inset-0 z-20 bg-paper/85 backdrop-blur-2xl transition-opacity duration-700 ease-fluid sm:hidden ${
+        className={`fixed inset-0 -z-10 bg-paper/95 backdrop-blur-2xl transition-opacity duration-700 ease-fluid lg:hidden ${
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none invisible opacity-0'
         }`}
       >
-        <nav className="flex h-full flex-col justify-center gap-2 px-8">
-          {LINKS.map(({ href, label }, index) => (
+        <nav className="flex h-full flex-col justify-center gap-1 px-8">
+          {sections.map(({ id, label }, index) => (
             <a
-              key={href}
-              href={href}
+              key={id}
+              href={`#${id}`}
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
-              style={{ transitionDelay: `${open ? 120 + index * 60 : 0}ms` }}
-              className={`inline-flex min-h-[56px] items-center font-display text-4xl text-ink transition-[opacity,transform] duration-700 ease-fluid ${
-                open ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              style={{ transitionDelay: `${open ? 100 + index * 45 : 0}ms` }}
+              className={`inline-flex min-h-[56px] items-center font-display text-3xl text-ink transition-[opacity,transform] duration-700 ease-fluid ${
+                open ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
               }`}
             >
               {label}
             </a>
           ))}
 
-          {BUSINESS.phone ? (
-            <a
-              href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}
-              onClick={() => setOpen(false)}
-              tabIndex={open ? 0 : -1}
-              style={{ transitionDelay: `${open ? 240 : 0}ms` }}
-              className={`mt-6 inline-flex min-h-[44px] items-center text-sm uppercase tracking-label text-clay transition-[opacity,transform] duration-700 ease-fluid ${
-                open ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-              }`}
-            >
-              {BUSINESS.phone}
-            </a>
-          ) : null}
+          <div
+            style={{ transitionDelay: `${open ? 100 + sections.length * 45 : 0}ms` }}
+            className={`mt-8 transition-[opacity,transform] duration-700 ease-fluid ${
+              open ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+            }`}
+          >
+            <BookingButton />
+          </div>
         </nav>
       </div>
     </header>

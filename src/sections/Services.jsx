@@ -1,58 +1,101 @@
+import { useState } from 'react'
 import { SERVICES } from '../data/services'
 import { formatPrice, formatDuration } from '../lib/format'
+import PhotoSlot from '../components/PhotoSlot.jsx'
 import Reveal from '../components/Reveal.jsx'
 
-/* Returns null rather than an empty section while the price list is unknown.
-   A heading with nothing under it tells a visitor the site is unfinished, on
-   the one page whose job is to look like a real business.
+/* A list on the left, one large photograph on the right that follows whichever
+   treatment you are pointing at. Not a card grid: three tiles side by side turn
+   a price list into a pricing table, and this is a menu.
 
-   Set as a price list inside a machined tray, not as a row of cards: a line per
-   treatment with the price flush right is how a printed menu does it, it
-   survives a 320px phone without collapsing into a stack of boxes, and it lets
-   the eye run down one column of numbers instead of hunting across three
-   tiles. */
+   The photograph is sticky rather than repeated per row, so a visitor scanning
+   durations and prices never loses it, and the crossfade between images is the
+   only motion in the section.
+
+   Mobile does not inherit any of this. There is no hover on a phone, so the
+   photograph moves inline above each treatment and the row becomes a plain tap
+   target -- the brief is explicit that mobile gets its own art direction rather
+   than a shrunken copy. */
 export default function Services() {
+  const [active, setActive] = useState(0)
+
   if (!SERVICES.length) return null
 
   return (
-    <section id="szolgaltatasok" className="px-4 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-5xl">
+    <section id="szolgaltatasok" className="px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-6xl">
         <Reveal>
-          <span className="inline-flex rounded-full border border-ink/[0.08] bg-ink/[0.03] px-3 py-1 text-[10px] font-medium uppercase tracking-label text-faint">
-            Árak
-          </span>
-          <h2 className="mt-6 text-[clamp(2rem,5vw,3rem)] leading-[1.05] tracking-[-0.02em] text-ink">
-            Szolgáltatások
+          <p className="text-[10px] font-medium uppercase tracking-label text-faint">Masszázsok</p>
+          <h2 className="mt-6 max-w-[12ch] text-[clamp(2.25rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.02em] text-ink">
+            Amit kérni tudsz
           </h2>
         </Reveal>
 
-        <Reveal delay={120} className="mt-12">
-          <div className="rounded-shell border border-ink/[0.06] bg-ink/[0.03] p-1.5 shadow-lift">
-            <ul className="rounded-core bg-paper/80 px-5 shadow-core sm:px-8">
-              {SERVICES.map((service, index) => (
-                <li
-                  key={service.id}
-                  className={`group flex flex-wrap items-baseline gap-x-5 gap-y-2 py-7 ${
-                    index ? 'border-t border-ink/[0.07]' : ''
-                  }`}
-                >
-                  <h3 className="text-lg text-ink transition-transform duration-700 ease-fluid group-hover:translate-x-1 sm:text-xl">
-                    {service.name}
-                  </h3>
-                  <span className="text-sm text-faint">{formatDuration(service.minutes)}</span>
-                  <span className="ml-auto font-display text-xl tabular-nums text-clay sm:text-2xl">
-                    {formatPrice(service.price)}
+        <div className="mt-16 grid gap-12 md:grid-cols-[1.2fr_1fr] md:gap-16">
+          <ul className="border-t border-ink/[0.08]">
+            {SERVICES.map((service, index) => (
+              <li
+                key={service.id}
+                onMouseEnter={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                className="group border-b border-ink/[0.08]"
+              >
+                <div className="flex flex-wrap items-baseline gap-x-5 gap-y-3 py-8 transition-[padding] duration-700 ease-fluid md:group-hover:pl-3">
+                  <span className="font-display text-xs tabular-nums text-clay">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
+                  <h3 className="text-2xl leading-tight text-ink sm:text-3xl">{service.name}</h3>
+
+                  {/* The photograph rides with the row on a phone, where the
+                      sticky column on the right does not exist -- but only when
+                      there IS one. An empty labelled frame under every single
+                      treatment is a column of grey boxes, and the frame's label
+                      would repeat the heading directly above it. */}
+                  {service.image ? (
+                    <div className="w-full md:hidden">
+                      <div className="aspect-[4/3] overflow-hidden rounded-core">
+                        <PhotoSlot src={service.image} alt={service.imageAlt} label="" />
+                      </div>
+                    </div>
+                  ) : null}
+
                   {service.desc ? (
                     <p className="w-full max-w-prose text-sm leading-relaxed text-muted">
                       {service.desc}
                     </p>
                   ) : null}
-                </li>
-              ))}
-            </ul>
+
+                  <span className="text-sm text-faint">{formatDuration(service.minutes)}</span>
+                  <span className="ml-auto font-display text-xl tabular-nums text-clay sm:text-2xl">
+                    {formatPrice(service.price)}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="hidden md:block">
+            <div className="sticky top-28">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-shell">
+                {SERVICES.map((service, index) => (
+                  <div
+                    key={service.id}
+                    aria-hidden={index !== active}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-fluid ${
+                      index === active ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {/* Generic label: the treatment's name is already in the
+                        list beside this frame, and echoing it inside the
+                        placeholder reads as a caption for a photo that is not
+                        there. */}
+                    <PhotoSlot src={service.image} alt={service.imageAlt} label="Kezelés" />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   )
