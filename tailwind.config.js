@@ -48,6 +48,26 @@ export default {
       letterSpacing: {
         label: '0.18em',
       },
+      transitionTimingFunction: {
+        /* One curve for the whole site. It decelerates hard at the end, which
+           is what makes a panel feel like it has mass instead of snapping. */
+        fluid: 'cubic-bezier(0.32, 0.72, 0, 1)',
+      },
+      boxShadow: {
+        /* Diffuse and warm-tinted rather than a grey drop shadow: the light in
+           this palette is warm, so the shadow has to be, or the cards read as
+           cut out and pasted on. */
+        lift: '0 1px 2px rgb(35 31 28 / 4%), 0 12px 32px -12px rgb(35 31 28 / 12%)',
+        liftHover: '0 1px 2px rgb(35 31 28 / 5%), 0 20px 48px -16px rgb(35 31 28 / 18%)',
+        /* The inner highlight that sells a surface as a physical plate. */
+        core: 'inset 0 1px 1px rgb(255 255 255 / 70%)',
+      },
+      borderRadius: {
+        shell: '2rem',
+        /* Concentric with `shell` once the 0.375rem tray padding is taken off,
+           so the inner and outer curves stay parallel. */
+        core: 'calc(2rem - 0.375rem)',
+      },
     },
   },
   plugins: [],
