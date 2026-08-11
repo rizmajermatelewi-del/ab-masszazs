@@ -25,12 +25,10 @@ export default function PhotoSlot({ src, alt, label, className = '' }) {
   return (
     <div
       aria-hidden="true"
-      className={`relative flex h-full w-full items-center justify-center bg-stone-100 ${className}`}
+      className={`relative flex h-full w-full items-center justify-center bg-tint ${className}`}
     >
-      <span className="absolute inset-4 rounded-2xl border border-dashed border-stone-300" />
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-400">
-        {label}
-      </span>
+      <span className="absolute inset-4 rounded-xl border border-dashed border-line" />
+      <span className="text-[10px] uppercase tracking-label text-faint">{label}</span>
     </div>
   )
 }

@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    /* The "soft texture instead of imagery" the design calls for: two very wide,
+       very faint warm washes. Pure CSS, so it costs no request, no image file
+       and nothing that can 404 -- and it stops a photo-free page from reading
+       as a blank sheet. */
+    background-image:
+      radial-gradient(60rem 40rem at 15% -10%, rgb(138 79 52 / 5%), transparent 60%),
+      radial-gradient(50rem 35rem at 100% 5%, rgb(107 98 91 / 5%), transparent 65%);
+    background-attachment: fixed;
+  }
+
+  /* Anchor links land below the sticky header rather than under it. */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  /* One visible ring everywhere instead of per-element focus styling, because
+     the fastest way to make a site unusable by keyboard is to remove the
+     default and forget to put something back. */
+  :focus-visible {
+    @apply rounded-sm outline-none ring-2 ring-clay ring-offset-4 ring-offset-paper;
+  }
+
+  /* Hungarian sets long words; let them break rather than overflow on a 320px
+     phone. */
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+
+    hyphens: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

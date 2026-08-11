@@ -11,12 +11,12 @@ export default function Privacy() {
   const owner = BUSINESS.legalName || BUSINESS.name
 
   return (
-    <main className="mx-auto max-w-2xl px-5 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight text-stone-900">
-        Adatkezelési tájékoztató
-      </h1>
+    <main className="mx-auto max-w-2xl px-5 py-16 sm:px-8 sm:py-20">
+      <h1 className="text-3xl tracking-tight text-ink sm:text-4xl">Adatkezelési tájékoztató</h1>
 
-      <div className="mt-8 space-y-5 leading-relaxed text-stone-600">
+      <div className="mt-4 h-px w-16 bg-clay/40" />
+
+      <div className="mt-10 space-y-6 leading-relaxed text-muted">
         <p>
           Ez az oldal jelenleg <strong>nem gyűjt</strong> személyes adatot: nincs rajta űrlap,
           hírlevél-feliratkozás, sem látogatottság-mérő. Saját sütit nem helyez el a böngésződben.
@@ -46,14 +46,20 @@ export default function Privacy() {
         {BUSINESS.email ? (
           <p>
             Kérdés esetén:{' '}
-            <a className="underline underline-offset-4" href={`mailto:${BUSINESS.email}`}>
+            <a
+              className="text-clay underline decoration-clay/40 underline-offset-4 transition-colors duration-200 hover:decoration-clay"
+              href={`mailto:${BUSINESS.email}`}
+            >
               {BUSINESS.email}
             </a>
           </p>
         ) : null}
       </div>
 
-      <Link to="/" className="mt-10 inline-block text-sm underline underline-offset-4">
+      <Link
+        to="/"
+        className="mt-12 inline-flex min-h-[44px] items-center text-sm text-clay underline decoration-clay/40 underline-offset-4 transition-colors duration-200 hover:decoration-clay"
+      >
         Vissza a főoldalra
       </Link>
     </main>

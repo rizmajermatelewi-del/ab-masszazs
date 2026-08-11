@@ -19,55 +19,61 @@ export default function Visit() {
   if (!hasAddress && !BUSINESS.hours.length && !BUSINESS.phone) return null
 
   return (
-    <section id="elerhetoseg" className="bg-stone-50 px-5 py-16 sm:py-24">
+    <section id="elerhetoseg" className="border-y border-line bg-tint px-5 py-16 sm:px-8 sm:py-20">
       <h2 className="sr-only">Elérhetőség</h2>
-      <div className="mx-auto grid max-w-3xl gap-10 sm:grid-cols-2">
-        {hasAddress ? (
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-widest text-stone-500">Cím</h3>
-            <p className="mt-3 text-lg text-stone-900">{address}</p>
-            {BUSINESS.mapsUrl ? (
+      {/* Two columns, not three: address and telephone stack together on the
+          left because they are the same question ("how do I get there, how do I
+          reach her"), while the hours table is tall and needs a column of its
+          own. A flat three-item grid drops the third block onto a second row and
+          leaves half the section empty. */}
+      <div className="mx-auto grid max-w-4xl gap-12 sm:grid-cols-2 sm:gap-x-16">
+        <div className="flex flex-col gap-12">
+          {hasAddress ? (
+            <div>
+              <h3 className="text-xs uppercase tracking-label text-faint">Cím</h3>
+              <p className="mt-4 font-display text-xl leading-snug text-ink">{address}</p>
+              {BUSINESS.mapsUrl ? (
+                <a
+                  href={BUSINESS.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex min-h-[44px] items-center text-sm text-clay underline decoration-clay/40 underline-offset-4 transition-colors duration-200 hover:decoration-clay"
+                >
+                  Megnyitás a térképen
+                </a>
+              ) : null}
+            </div>
+          ) : null}
+
+          {BUSINESS.phone ? (
+            <div>
+              <h3 className="text-xs uppercase tracking-label text-faint">Időpontért</h3>
+              {/* Phase 1 has no booking flow. Until Phase 2 replaces this block,
+                  the honest call to action is her telephone number. */}
               <a
-                href={BUSINESS.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-block text-sm underline underline-offset-4"
+                href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}
+                className="mt-4 inline-flex min-h-[44px] items-center font-display text-xl text-clay underline decoration-clay/40 underline-offset-4 transition-colors duration-200 hover:decoration-clay"
               >
-                Megnyitás a térképen
+                {BUSINESS.phone}
               </a>
-            ) : null}
-          </div>
-        ) : null}
+            </div>
+          ) : null}
+        </div>
 
         {BUSINESS.hours.length ? (
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-widest text-stone-500">
-              Nyitvatartás
-            </h3>
-            <dl className="mt-3 space-y-1">
+            <h3 className="text-xs uppercase tracking-label text-faint">Nyitvatartás</h3>
+            <dl className="mt-4 space-y-2">
               {BUSINESS.hours.map(({ day, opens, closes }) => (
-                <div key={day} className="flex justify-between gap-6 text-stone-900">
+                <div
+                  key={day}
+                  className="flex items-baseline justify-between gap-6 border-b border-line/70 pb-2 text-ink"
+                >
                   <dt>{day}</dt>
-                  <dd className="tabular-nums">{`${opens} – ${closes}`}</dd>
+                  <dd className="tabular-nums text-muted">{`${opens} – ${closes}`}</dd>
                 </div>
               ))}
             </dl>
-          </div>
-        ) : null}
-
-        {BUSINESS.phone ? (
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-widest text-stone-500">
-              Időpontért
-            </h3>
-            {/* Phase 1 has no booking flow. Until Phase 2 replaces this block,
-                the honest call to action is her telephone number. */}
-            <a
-              href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}
-              className="mt-3 inline-block text-lg text-stone-900 underline underline-offset-4"
-            >
-              {BUSINESS.phone}
-            </a>
           </div>
         ) : null}
       </div>

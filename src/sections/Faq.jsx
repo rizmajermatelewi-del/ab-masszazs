@@ -7,14 +7,14 @@ export default function Faq() {
   if (!FAQ.length) return null
 
   return (
-    <section id="gyik" className="px-5 py-16 sm:py-24">
-      <div className="mx-auto max-w-3xl">
-        <h2 className="text-3xl font-semibold tracking-tight text-stone-900">Gyakori kérdések</h2>
-        <dl className="mt-10 space-y-8">
+    <section id="gyik" className="px-5 py-16 sm:px-8 sm:py-20">
+      <div className="mx-auto max-w-4xl">
+        <h2 className="text-3xl tracking-tight text-ink sm:text-4xl">Gyakori kérdések</h2>
+        <dl className="mt-12 space-y-8 border-t border-line pt-8">
           {FAQ.map(({ q, a }) => (
             <div key={q}>
-              <dt className="font-medium text-stone-900">{q}</dt>
-              <dd className="mt-2 leading-relaxed text-stone-600">{a}</dd>
+              <dt className="font-display text-lg text-ink">{q}</dt>
+              <dd className="mt-3 max-w-prose leading-relaxed text-muted">{a}</dd>
             </div>
           ))}
         </dl>

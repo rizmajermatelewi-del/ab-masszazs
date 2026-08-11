@@ -10,13 +10,15 @@ export default function About() {
   if (!ABOUT_TEXT) return null
 
   return (
-    <section className="px-5 py-16 sm:py-24">
-      <div className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-[2fr_1fr]">
+    <section className="px-5 py-16 sm:px-8 sm:py-20">
+      <div className="mx-auto grid max-w-4xl items-center gap-12 sm:grid-cols-[2fr_1fr] sm:gap-x-16">
         <div>
-          <h2 className="text-3xl font-semibold tracking-tight text-stone-900">Rólam</h2>
-          <p className="mt-6 whitespace-pre-line leading-relaxed text-stone-600">{ABOUT_TEXT}</p>
+          <h2 className="text-3xl tracking-tight text-ink sm:text-4xl">Rólam</h2>
+          <p className="mt-8 max-w-prose whitespace-pre-line leading-relaxed text-muted">
+            {ABOUT_TEXT}
+          </p>
         </div>
-        <div className="aspect-[3/4] overflow-hidden rounded-3xl">
+        <div className="aspect-[3/4] overflow-hidden rounded-2xl">
           <PhotoSlot src="" alt="" label="Portré" />
         </div>
       </div>
