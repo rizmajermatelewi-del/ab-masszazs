@@ -17,7 +17,13 @@ import BookingButton from '../components/BookingButton.jsx'
 
    No image yet renders a labelled frame instead, which is the whole point of
    the PhotoSlot pattern: the composition is finished, the file is the only
-   thing missing. */
+   thing missing.
+
+   The headline's line-height is just over 1 rather than the tight 0.9 that
+   display type usually wants. Hungarian is full of descenders (gy, j, p) and
+   accents that sit high (ó, ő, í); at 0.9 the tail of "Egy" lands in the
+   ascenders of the line below it. The tracking carries the display feel
+   instead. */
 export default function Hero() {
   return (
     <section id="kezdolap" className="relative isolate flex min-h-[100svh] flex-col">
@@ -30,7 +36,13 @@ export default function Hero() {
           className="h-full w-full"
         />
         {/* Just enough to hold the type, not enough to flatten the picture. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-paper/70 via-paper/40 to-paper/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-paper/70 via-paper/30 to-paper/85" />
+        {/* A second, horizontal wash under the type, which is left-aligned, and
+            gone well before the right edge. One overlay strong enough to carry
+            a headline over a busy photograph greys out the entire picture --
+            which is exactly how a hero photo becomes a texture. Paying for the
+            legibility locally keeps the right half of the image intact. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-paper/85 via-paper/45 to-transparent" />
       </div>
 
       <div className="flex flex-1 items-center px-5 pb-10 pt-28 sm:px-8 sm:pt-32">
@@ -46,14 +58,14 @@ export default function Hero() {
           ) : null}
 
           {HERO.headline ? (
-            <h1 className="mt-8 max-w-[15ch] text-[clamp(3rem,11vw,8rem)] font-normal leading-[0.9] tracking-[-0.03em] text-ink">
+            <h1 className="mt-8 max-w-[15ch] text-[clamp(3rem,11vw,8rem)] font-normal leading-[1.02] tracking-[-0.03em] text-ink">
               {HERO.headline}
             </h1>
           ) : (
             /* The name carries the h1 until she writes a line of her own. It is
                the honest fallback and it is also the better one for search:
                "AB Masszázs" plus the town is what people type. */
-            <h1 className="mt-8 max-w-[15ch] text-[clamp(3rem,11vw,8rem)] font-normal leading-[0.9] tracking-[-0.03em] text-ink">
+            <h1 className="mt-8 max-w-[15ch] text-[clamp(3rem,11vw,8rem)] font-normal leading-[1.02] tracking-[-0.03em] text-ink">
               {BUSINESS.name || 'AB Masszázs'}
               {BUSINESS.city ? <span className="block text-clay">{BUSINESS.city}</span> : null}
             </h1>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BUSINESS } from '../data/business'
 import { visibleSections } from '../data/navigation'
 import BookingButton from '../components/BookingButton.jsx'
+import DemoBanner from '../components/DemoBanner.jsx'
 
 /* Transparent over the hero, then a paper wash and a hairline once the page has
    moved. It compacts rather than changing shape, so nothing under it jumps.
@@ -42,15 +43,28 @@ export default function Header() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  /* The vertical padding lives on the nav row rather than on <header>, so the
+     demo banner can sit flush against the top edge instead of floating inside
+     the bar's own inset. */
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-30 transition-[background-color,border-color,padding] duration-700 ease-fluid ${
+      className={`fixed inset-x-0 top-0 z-30 transition-[background-color,border-color] duration-700 ease-fluid ${
         scrolled
-          ? 'border-b border-line/70 bg-paper/80 py-1 backdrop-blur-xl'
-          : 'border-b border-transparent py-3'
+          ? 'border-b border-line/70 bg-paper/80 backdrop-blur-xl'
+          : 'border-b border-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
+      {/* Inside the fixed bar, not above it in the page flow. Anywhere else it
+          either scrolls away -- useless, since the screenshot happens at the
+          top -- or lies over this bar and buries the menu. Here the bar simply
+          starts lower and nothing is covered. Renders nothing outside demo. */}
+      <DemoBanner />
+
+      <div
+        className={`mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 transition-[padding] duration-700 ease-fluid sm:px-8 ${
+          scrolled ? 'py-1' : 'py-3'
+        }`}
+      >
         <a
           href="#kezdolap"
           className="relative z-10 inline-flex min-h-[44px] items-center font-display text-base tracking-tight text-ink"

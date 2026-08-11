@@ -8,5 +8,12 @@
 
    Shape:
      { id: 'svedmasszazs-60', name: 'Svédmasszázs', minutes: 60,
-       price: 9000, desc: 'Egy mondat arról, kinek való.' } */
-export const SERVICES = []
+       price: 9000, desc: 'Egy mondat arról, kinek való.' }
+
+   Amíg demo.js DEMO === true, kitalált árak jelennek meg helyette és a build
+   elhasal. Lásd demo.js fejlécét. */
+import { DEMO, DEMO_SERVICES } from './demo.js'
+
+const REAL = []
+
+export const SERVICES = DEMO ? DEMO_SERVICES : REAL

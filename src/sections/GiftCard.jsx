@@ -1,3 +1,4 @@
+import { BUSINESS } from '../data/business'
 import { GIFT_CARD } from '../data/content'
 import BookingButton from '../components/BookingButton.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -39,7 +40,13 @@ export default function GiftCard() {
                 <span className="text-[10px] uppercase tracking-label text-paper/60">
                   Ajándékutalvány
                 </span>
-                <span className="font-display text-2xl text-paper">AB Masszázs</span>
+                {/* The same fallback as the header and the hero, not a literal:
+                    a voucher printed with a name she does not trade under is
+                    the one place on this page where a wrong word is a
+                    commercial document. */}
+                <span className="font-display text-2xl text-paper">
+                  {BUSINESS.name || 'AB Masszázs'}
+                </span>
               </div>
             </div>
           </div>

@@ -7,8 +7,13 @@
    Empty strings are the honest default. Nothing here may be guessed: every
    value comes from her directly (spec §9). Sections omit themselves when their
    fields are empty, and scripts/check-content.mjs refuses to build while
-   missingFacts() is non-empty. */
-export const BUSINESS = {
+   missingFacts() is non-empty.
+
+   Amíg demo.js DEMO === true, ezek helyett kitalált adatok kerülnek az oldalra
+   és a build szándékosan elhasal. Lásd demo.js fejlécét. */
+import { DEMO, DEMO_BUSINESS } from './demo.js'
+
+const REAL = {
   name: '',
   legalName: '',
   tagline: '',
@@ -31,6 +36,8 @@ export const BUSINESS = {
   /* e.g. { day: 'Hétfő', opens: '09:00', closes: '18:00' } */
   hours: [],
 }
+
+export const BUSINESS = DEMO ? DEMO_BUSINESS : REAL
 
 /* The facts a launch cannot proceed without. Kept next to the data rather than
    in the build script, so the rule lives with what it describes.

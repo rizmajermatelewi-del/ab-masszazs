@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { AppRoutes } from './routes.jsx'
+import { BUSINESS } from './data/business'
+import { GIFT_CARD } from './data/content'
+import { DEMO } from './data/demo'
 
 /* Proves the toolchain works end to end — JSX compiles, jsdom renders, the
    router resolves — before any real component depends on all three. */
@@ -12,10 +15,35 @@ describe('app shell', () => {
         <AppRoutes />
       </MemoryRouter>,
     )
-    /* Twice, not "at least once": the header wordmark and the hero h1 both fall
-       back to it while BUSINESS.name is empty. A count that cannot fail would
-       leave this test asserting only that getAllByText did not throw. */
-    expect(screen.getAllByText('AB Masszázs')).toHaveLength(2)
+    /* An exact count, not "at least once": a query that cannot fail would leave
+       this test asserting only that getAllByText did not throw.
+
+       Derived rather than a literal, because the number moves with the data and
+       for a good reason. The header wordmark and the hero both always carry the
+       name -- the hero as its h1 while there is no headline, as the eyebrow
+       above it once there is. The voucher mock-up carries it a third time, but
+       only once she actually sells vouchers. A hardcoded 2 goes red the day
+       real content lands, which is precisely the day it must not. */
+    const brand = BUSINESS.name || 'AB Masszázs'
+    expect(screen.getAllByText(brand)).toHaveLength(GIFT_CARD.enabled ? 3 : 2)
+  })
+
+  /* check-content.mjs stops demo content reaching a server. Nothing stopped it
+     reaching a screenshot until the banner existed, and nothing noticed if the
+     banner were deleted -- every other test on this page passes with it gone,
+     because it is the one element whose whole job is to be redundant.
+
+     Asserted both ways round: present while the data is fake, and absent once
+     it is real, so it cannot be left behind on the live site either. */
+  it('says out loud that the content is invented, exactly while it is', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    )
+    const alerts = screen.queryAllByRole('alert')
+    expect(alerts).toHaveLength(DEMO ? 1 : 0)
+    if (DEMO) expect(alerts[0].textContent).toContain('DEMÓ')
   })
 
   /* The prerendered HTML gets the title right for whichever page a crawler lands

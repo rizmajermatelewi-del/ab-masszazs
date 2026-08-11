@@ -4,15 +4,27 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { missingFacts } from './business'
 import { SERVICES } from './services'
+import { DEMO } from './demo'
 
 /* The point of this project is that nothing about the business is invented.
    The risk that creates is the opposite one: a live site with blank sections
    because a fact never arrived. This guard turns that into a failed build
    rather than a quiet embarrassment. */
 const root = process.cwd()
-const launchable = missingFacts().length === 0 && SERVICES.length > 0
+const launchable = !DEMO && missingFacts().length === 0 && SERVICES.length > 0
 
 describe('content guard', () => {
+  /* Demo mode fills every required fact with a convincing fake, so without this
+     the guard's own definition of "launchable" would be satisfied by the very
+     content it exists to stop. Asserted separately from the exit-code test
+     because that test passes either way once both sides agree. */
+  it('refuses to build while demo content is in place', () => {
+    if (!DEMO) return
+    expect(missingFacts()).toEqual([])
+    expect(SERVICES.length).toBeGreaterThan(0)
+    expect(launchable, 'demo content must never count as launchable').toBe(false)
+  })
+
   it('agrees with the data modules about whether we can launch', () => {
     let exitCode = 0
     try {
