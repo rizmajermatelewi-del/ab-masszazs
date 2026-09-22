@@ -18,6 +18,7 @@ import Reveal from '../components/Reveal.jsx'
    than a shrunken copy. */
 export default function Services() {
   const [active, setActive] = useState(0)
+  const hasPhoto = SERVICES.some((service) => service.image)
 
   if (!SERVICES.length) return null
 
@@ -31,7 +32,7 @@ export default function Services() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-12 md:grid-cols-[1.2fr_1fr] md:gap-16">
+        <div className={`mt-16 grid gap-12 ${hasPhoto ? 'md:grid-cols-[1.2fr_1fr] md:gap-16' : ''}`}>
           <ul className="border-t border-ink/[0.08]">
             {SERVICES.map((service, index) => (
               <li
@@ -40,11 +41,17 @@ export default function Services() {
                 onFocus={() => setActive(index)}
                 className="group border-b border-ink/[0.08]"
               >
-                <div className="flex flex-wrap items-baseline gap-x-5 gap-y-3 py-8 transition-[padding] duration-700 ease-fluid md:group-hover:pl-3">
+                <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-baseline gap-x-5 gap-y-2 py-8 transition-[padding] duration-700 ease-fluid md:group-hover:pl-3">
                   <span className="font-display text-xs tabular-nums text-clay">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <h3 className="text-2xl leading-tight text-ink sm:text-3xl">{service.name}</h3>
+                  <div className="flex items-baseline gap-5">
+                    <span className="text-sm text-faint">{formatDuration(service.minutes)}</span>
+                    <span className="font-display text-xl tabular-nums text-clay sm:text-2xl">
+                      {formatPrice(service.price)}
+                    </span>
+                  </div>
 
                   {/* The photograph rides with the row on a phone, where the
                       sticky column on the right does not exist -- but only when
@@ -52,7 +59,7 @@ export default function Services() {
                       treatment is a column of grey boxes, and the frame's label
                       would repeat the heading directly above it. */}
                   {service.image ? (
-                    <div className="w-full md:hidden">
+                    <div className="col-span-3 md:hidden">
                       <div className="aspect-[4/3] overflow-hidden rounded-core">
                         <PhotoSlot src={service.image} alt={service.imageAlt} label="" />
                       </div>
@@ -60,21 +67,16 @@ export default function Services() {
                   ) : null}
 
                   {service.desc ? (
-                    <p className="w-full max-w-prose text-sm leading-relaxed text-muted">
+                    <p className="col-start-2 max-w-prose text-sm leading-relaxed text-muted">
                       {service.desc}
                     </p>
                   ) : null}
-
-                  <span className="text-sm text-faint">{formatDuration(service.minutes)}</span>
-                  <span className="ml-auto font-display text-xl tabular-nums text-clay sm:text-2xl">
-                    {formatPrice(service.price)}
-                  </span>
                 </div>
               </li>
             ))}
           </ul>
 
-          <div className="hidden md:block">
+          {hasPhoto ? <div className="hidden md:block">
             <div className="sticky top-28">
               <div className="relative aspect-[3/4] overflow-hidden rounded-shell">
                 {SERVICES.map((service, index) => (
@@ -94,7 +96,7 @@ export default function Services() {
                 ))}
               </div>
             </div>
-          </div>
+          </div> : null}
         </div>
       </div>
     </section>
