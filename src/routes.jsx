@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Privacy from './pages/Privacy.jsx'
+import Booking from './pages/Booking.jsx'
 import { metaFor } from './data/seo.js'
 
 /* Both paths also live in src/data/seo.js as ROUTES, which the prerender script
@@ -34,6 +35,7 @@ export function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/adatvedelem" element={<Privacy />} />
+        <Route path="/foglalas" element={<Booking />} />
       </Routes>
     </>
   )

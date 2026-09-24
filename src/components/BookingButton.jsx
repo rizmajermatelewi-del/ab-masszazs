@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import { BUSINESS } from '../data/business'
+import { BOOKING_ONLINE } from '../data/booking'
 
 /* The one control the whole page exists to get pressed, in one component so it
    cannot drift between the hero, the header and the sticky mobile bar.
@@ -10,27 +12,31 @@ import { BUSINESS } from '../data/business'
 
    With no telephone number on file it renders nothing at all rather than a dead
    button. check-content.mjs already refuses to build in that state; this is the
-   same rule enforced where it is visible. */
+   same rule enforced where it is visible.
+
+   Once online booking is switched on (data/booking.js) the same button leads
+   to /foglalas instead, and the label is literally true. */
 export default function BookingButton({ variant = 'primary', className = '' }) {
   if (!BUSINESS.phone) return null
 
-  const tel = `tel:${BUSINESS.phone.replace(/\s/g, '')}`
+  const Tag = BOOKING_ONLINE ? Link : 'a'
+  const target = BOOKING_ONLINE ? { to: '/foglalas' } : { href: `tel:${BUSINESS.phone.replace(/\s/g, '')}` }
 
   if (variant === 'compact') {
     return (
-      <a
-        href={tel}
+      <Tag
+        {...target}
         className={`group inline-flex min-h-[44px] items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-paper transition-[transform,background-color] duration-700 ease-fluid hover:bg-clay active:scale-[0.98] ${className}`}
       >
         Időpontfoglalás
         <Arrow />
-      </a>
+      </Tag>
     )
   }
 
   return (
-    <a
-      href={tel}
+    <Tag
+      {...target}
       className={`group inline-flex min-h-[56px] shrink-0 items-center gap-4 rounded-full bg-ink py-2 pl-7 pr-2 text-paper shadow-lift transition-[transform,background-color,box-shadow] duration-700 ease-fluid hover:bg-clay hover:shadow-liftHover active:scale-[0.98] ${className}`}
     >
       <span className="text-sm font-medium">Időpontfoglalás</span>
@@ -40,7 +46,7 @@ export default function BookingButton({ variant = 'primary', className = '' }) {
       >
         <Arrow />
       </span>
-    </a>
+    </Tag>
   )
 }
 

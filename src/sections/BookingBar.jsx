@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { BUSINESS } from '../data/business'
+import { BOOKING_ONLINE } from '../data/booking'
 
 /* A phone-only bar that holds the booking action once the hero -- which already
    carries the same button -- has scrolled away. Two copies of the primary CTA
@@ -20,6 +22,8 @@ export default function BookingBar() {
   }, [])
 
   if (!BUSINESS.phone) return null
+  const Tag = BOOKING_ONLINE ? Link : 'a'
+  const target = BOOKING_ONLINE ? { to: '/foglalas' } : { href: `tel:${BUSINESS.phone.replace(/\s/g, '')}` }
 
   return (
     <>
@@ -29,12 +33,12 @@ export default function BookingBar() {
           shown ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <a
-          href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}
+        <Tag
+          {...target}
           className="flex min-h-[52px] w-full items-center justify-center rounded-full bg-ink text-sm font-medium text-paper transition-transform duration-500 ease-fluid active:scale-[0.99]"
         >
           Időpontfoglalás
-        </a>
+        </Tag>
       </div>
     </>
   )

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { AppRoutes } from '../routes.jsx'
+import { BOOKING_ONLINE } from '../data/booking'
 
 /* Phase 1 collects no personal data at all — there is no form yet. The page
    exists anyway because the footer links to it from day one, and a dead link in
@@ -21,9 +22,17 @@ describe('/adatvedelem', () => {
     expect(screen.getByRole('heading', { name: /Adatkezelési tájékoztató/ })).toBeTruthy()
   })
 
-  it('says plainly that the site collects nothing yet', () => {
+  /* Whichever state the site is in, the notice describes that one: no data
+     while booking is off, the booking data (and the regulator) once it is on. */
+  it('describes what the site actually collects', () => {
     renderAt('/adatvedelem')
-    expect(screen.getByText(/nem gyűjt/)).toBeTruthy()
+    if (BOOKING_ONLINE) {
+      expect(screen.getByText(/Online időpontfoglalás/)).toBeTruthy()
+      expect(screen.getByText(/Google Naptárban/)).toBeTruthy()
+      expect(screen.queryByText(/nem gyűjt/)).toBe(null)
+    } else {
+      expect(screen.getByText(/nem gyűjt/)).toBeTruthy()
+    }
   })
 
   /* The sentence above is a factual claim about the rest of the site, and a

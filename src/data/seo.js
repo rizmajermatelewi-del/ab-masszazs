@@ -1,5 +1,7 @@
 import { BUSINESS } from './business.js'
 import { SERVICES } from './services.js'
+import { BOOKING_ONLINE } from './booking.js'
+import { DEMO } from './demo.js'
 
 /* Everything a crawler reads, derived from the two data modules rather than
    written out a second time. The failure this prevents is the one that costs a
@@ -9,7 +11,7 @@ import { SERVICES } from './services.js'
    HealthAndBeautyBusiness rather than the generic LocalBusiness: it is the type
    Google documents for salons, and the more specific type is what earns the
    richer treatment in local results. */
-export const ROUTES = ['/', '/adatvedelem']
+export const ROUTES = ['/', '/adatvedelem', '/foglalas']
 
 /* schema.org wants English day names; the page shows Hungarian ones. This map
    is the only place the two meet. */
@@ -98,6 +100,17 @@ export function metaFor(route) {
       title: `Adatkezelési tájékoztató — ${name}`,
       description: 'Milyen adatokat kezel ez az oldal, és milyen célból.',
       index: false,
+    }
+  }
+
+  /* Linked from Facebook, Instagram and the Google profile (spec §5), so
+     it is indexed once it takes bookings, and not while it only says to
+     phone. */
+  if (route === '/foglalas') {
+    return {
+      title: `Időpontfoglalás — ${name}`,
+      description: `Foglalj időpontot online${BUSINESS.city ? ` ${BUSINESS.city} környékén` : ''}: kezelés, nap, időpont, és kész.`,
+      index: BOOKING_ONLINE && !DEMO,
     }
   }
 

@@ -2,8 +2,54 @@ import { Link } from 'react-router-dom'
 import { BUSINESS } from '../data/business'
 import { DEMO } from '../data/demo'
 import DemoBanner from '../components/DemoBanner.jsx'
+import { BOOKING_ONLINE } from '../data/booking'
 
-/* Deliberately short, because in Phase 1 it is true: the site has no form, no
+/* How long a booking stays in her calendar before she deletes it.
+   ponytail: a stated default until she decides otherwise; change it here and
+   the notice follows. */
+const RETENTION = 'az időpontot követő 12 hónapig'
+
+/* The part of the notice the booking form needs (spec §7): who holds the
+   data, what, why, where, for how long, and what the visitor can do about
+   it. Written against the code in src/server/: the data lives only in the
+   calendar event and the two e-mails. */
+function BookingData({ owner }) {
+  const who = owner || 'a szolgáltató'
+  return (
+    <>
+      <p>
+        <strong>Online időpontfoglalás.</strong> Foglaláskor a nevedet, telefonszámodat, e-mail
+        címedet, a választott kezelést és időpontot, valamint az esetleges megjegyzésedet kérem el.
+        Az adatkezelő {who}
+        {BUSINESS.street ? ` (${[BUSINESS.postalCode, BUSINESS.city, BUSINESS.street].filter(Boolean).join(' ')})` : ''}.
+      </p>
+      <p>
+        Az adatokat kizárólag az időpont rögzítésére, visszaigazolására, szükség esetén az
+        egyeztetésre és a lemondás lehetővé tételére használom. A kezelés jogalapja a
+        hozzájárulásod, amelyet a foglaláskor adsz meg, és a szolgáltatás igénybevételéhez
+        szükséges lépések (GDPR 6. cikk (1) a) és b) pont).
+      </p>
+      <p>
+        Az adatok egyetlen helyen tárolódnak: az időpont a naptárban, a Google Naptárban (Google
+        Ireland Ltd.), a visszaigazolás pedig e-mailben, Gmailen keresztül. Adatbázis, hírlevél,
+        látogatottság-mérő nincs; az oldal saját sütit nem használ. Az adatokat {RETENTION} őrzöm,
+        utána törlöm.
+      </p>
+      <p>
+        Kérlek, egészségügyi adatot ne írj a megjegyzésbe; ha valamire figyelnem kell, azt
+        személyesen beszéljük meg.
+      </p>
+      <p>
+        Bármikor kérheted, hogy megmutassam, kijavítsam vagy töröljem az adataidat, és
+        visszavonhatod a hozzájárulásodat; a foglalást a visszaigazoló e-mailben lévő linkkel magad
+        is lemondhatod. Panasszal a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (naih.hu)
+        fordulhatsz.
+      </p>
+    </>
+  )
+}
+
+/* Two states. With booking off, deliberately short, because it is true: no form, no
    analytics, no cookies of its own and no third-party embeds. Phase 2 replaces
    this with the real tájékoztató covering booking data — name, telephone
    number, e-mail address — Google Calendar as processor, and the retention
@@ -33,10 +79,14 @@ export default function Privacy() {
             akkor lesznek maradéktalanul igazak.
           </p>
         ) : null}
-        <p>
-          Ez az oldal jelenleg <strong>nem gyűjt</strong> személyes adatot: nincs rajta űrlap,
-          hírlevél-feliratkozás, sem látogatottság-mérő. Saját sütit nem helyez el a böngésződben.
-        </p>
+        {BOOKING_ONLINE ? (
+          <BookingData owner={owner} />
+        ) : (
+          <p>
+            Ez az oldal jelenleg <strong>nem gyűjt</strong> személyes adatot: nincs rajta űrlap,
+            hírlevél-feliratkozás, sem látogatottság-mérő. Saját sütit nem helyez el a böngésződben.
+          </p>
+        )}
         {BUSINESS.phone ? (
           <p>
             Ha időpontot szeretnél, telefonon tudsz jelentkezni. A hívás során megadott adatokat
@@ -55,10 +105,6 @@ export default function Privacy() {
             naplózhatja a kéréseket (például IP-cím, böngésző típusa).
           </p>
         ) : null}
-        <p>
-          Amint online időpontfoglalás indul, ez a tájékoztató kiegészül azzal, hogy a foglaláshoz
-          megadott név, telefonszám és e-mail cím hogyan kerül kezelésre.
-        </p>
         {BUSINESS.email ? (
           <p>
             Kérdés esetén:{' '}

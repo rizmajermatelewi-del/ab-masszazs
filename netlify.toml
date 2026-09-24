@@ -1,0 +1,8 @@
+# Netlify rather than Vercel: Vercel's free plan forbids commercial use, and
+# a salon taking bookings is commercial (spec §3). Netlify's free tier allows it.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  node_bundler = "esbuild"

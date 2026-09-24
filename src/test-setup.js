@@ -15,7 +15,7 @@ afterEach(cleanup)
    defensive `?.` into components that would then be lying about what they
    support. Defaults to "no preference", which is what most visitors have --
    a test that needs the other answer can override this one property. */
-if (!window.matchMedia) {
+if (typeof window !== 'undefined' && !window.matchMedia) {
   window.matchMedia = (query) => ({
     matches: false,
     media: query,
