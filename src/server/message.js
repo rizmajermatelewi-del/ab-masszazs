@@ -9,12 +9,11 @@ import { formatPrice, formatDuration } from '../lib/format.js'
 const PHONE = /^[+0-9 ()/-]{7,20}$/
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-/* Callback windows, inside her opening hours. */
-export const WHEN = {
-  de: 'Délelőtt (8-12)',
-  du: 'Kora délután (12-15)',
-  dk: 'Késő délután (15-18)',
-}
+const DATE = /^\d{4}-\d{2}-\d{2}$/
+const TIME = /^\d{2}:\d{2}$/
+/* The time value the form sends for "any time that day suits me". */
+export const FLEXIBLE = 'rugalmas'
+const fullDate = new Intl.DateTimeFormat('hu-HU', { timeZone: 'Europe/Budapest', dateStyle: 'full' })
 
 /* Printed on the voucher preview and repeated in the e-mail, so the two
    cannot disagree. Hungarian law lets her choose it, but it must be stated. */
@@ -38,22 +37,29 @@ export function composeMessage(body = {}, services = SERVICES) {
   if (!name || !PHONE.test(phone) || (email && !EMAIL.test(email))) return INVALID
   const contact = [`Név: ${name}`, `Telefon: ${phone}`, email && `E-mail: ${email}`]
 
-  if (body.kind === 'callback') {
-    const when = WHEN[body.when]
-    if (!when) return INVALID
+  /* An appointment REQUEST: she confirms it by phone or message. Until the
+     calendar booking is switched on, this is how the page takes bookings. */
+  if (body.kind === 'booking') {
     const service = services.find((s) => s.id === body.serviceId)
+    const date = String(body.date ?? '')
+    const time = String(body.time ?? '')
+    if (!service || !DATE.test(date) || !(time === FLEXIBLE || TIME.test(time))) return INVALID
+    const day = fullDate.format(new Date(`${date}T12:00:00Z`))
+    const when = time === FLEXIBLE ? 'aznap bármikor jó neki' : time
     const note = text(body.note, 500)
     return {
       ok: true,
       mail: {
-        subject: `Visszahívást kér: ${name}`,
+        subject: `Időpontkérés: ${name}, ${date} ${time === FLEXIBLE ? '(rugalmas)' : time}`,
         replyTo: email || undefined,
         text: join([
-          'Visszahívást kértek a weboldalon.',
+          'Időpontot kértek a weboldalon. Hívd vissza vagy írj neki, és erősítsd meg.',
+          '',
+          `Kezelés: ${service.name}, ${formatDuration(service.minutes)}, ${formatPrice(service.price)}`,
+          `Nap: ${day}`,
+          `Időpont: ${when}`,
           '',
           ...contact,
-          `Mikor hívd: ${when}`,
-          `Érdekli: ${service ? service.name : 'még nem tudja'}`,
           note && `\nÜzenet:\n${note}`,
         ]),
       },

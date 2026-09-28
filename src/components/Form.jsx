@@ -35,7 +35,7 @@ export function Pills({ legend, name, options, value, onChange }) {
       <legend className="text-sm font-medium text-ink">{legend}</legend>
       <div className="mt-2 flex flex-wrap gap-2">
         {options.map((o) => (
-          <label key={o.value} className="cursor-pointer">
+          <label key={o.value} className="relative cursor-pointer">
             <input
               type="radio"
               name={name}

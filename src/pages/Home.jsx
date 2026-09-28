@@ -10,7 +10,7 @@ import Testimonials from '../sections/Testimonials.jsx'
 import GiftCard from '../sections/GiftCard.jsx'
 import Faq from '../sections/Faq.jsx'
 import Recommender from '../sections/Recommender.jsx'
-import Callback from '../sections/Callback.jsx'
+import BookingRequest from '../sections/BookingRequest.jsx'
 import ReviewInvite from '../sections/ReviewInvite.jsx'
 import Visit from '../sections/Visit.jsx'
 import Footer from '../sections/Footer.jsx'
@@ -41,7 +41,7 @@ export default function Home() {
         <Testimonials />
         <GiftCard />
         <Faq />
-        <Callback />
+        <BookingRequest />
         <Visit />
         <ReviewInvite />
       </main>

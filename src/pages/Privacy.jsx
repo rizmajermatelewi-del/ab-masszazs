@@ -40,7 +40,7 @@ function BookingData({ owner }) {
   )
 }
 
-/* The callback and voucher forms (src/server/message.js): what they ask,
+/* The appointment request and voucher forms (src/server/message.js): what they ask,
    why, where it goes. Written against the code: the submission becomes one
    e-mail in her Gmail inbox and nothing else stores it. */
 function FormsData({ owner }) {
@@ -48,15 +48,15 @@ function FormsData({ owner }) {
   return (
     <>
       <p>
-        <strong>Visszahívás és ajándékutalvány.</strong> A visszahívás-kérő űrlapon a nevedet,
-        telefonszámodat, a számodra kényelmes idősávot, az érdeklődési körödet és az esetleges
+        <strong>Időpontkérés és ajándékutalvány.</strong> Az időpontkérő űrlapon a nevedet,
+        telefonszámodat, a választott kezelést, napot és időpontot, valamint az esetleges
         üzenetedet kérem el. Az ajándékutalvány-igénylésnél ezen felül a választott kezelést, a
         megajándékozott nevét és az utalványra kért üzenetet; az e-mail cím mindkét helyen
         opcionális. Az adatkezelő {who}
         {BUSINESS.street ? ` (${[BUSINESS.postalCode, BUSINESS.city, BUSINESS.street].filter(Boolean).join(' ')})` : ''}.
       </p>
       <p>
-        Az adatokat csak arra használom, hogy visszahívjalak, illetve egyeztessük az utalvány
+        Az adatokat csak arra használom, hogy megerősítsem az időpontot, illetve egyeztessük az utalvány
         fizetését és átadását. Jogalap: a hozzájárulásod, amelyet a küldéssel adsz meg, és a
         szolgáltatás igénybevétele előtti lépések (GDPR 6. cikk (1) a) és b) pont). A
         megajándékozott nevét csak az utalványra írom rá.
@@ -72,7 +72,7 @@ function FormsData({ owner }) {
 const FORM_RETENTION = 'a megkeresést követő 12 hónapig'
 
 /* Every state lists exactly the forms that exist: booking only once it is
-   switched on, the callback and voucher forms always. A notice that
+   switched on, the request and voucher forms always. A notice that
    describes a form the site does not have, or misses one it does, is wrong
    either way. */
 export default function Privacy() {

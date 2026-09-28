@@ -5,10 +5,9 @@ import { BOOKING_ONLINE } from '../data/booking'
 /* The one control the whole page exists to get pressed, in one component so it
    cannot drift between the hero, the header and the sticky mobile bar.
 
-   In phase 1 "Időpontfoglalás" means her telephone, because there is no booking
-   system yet. Labelling it as though there were -- and then dropping the
-   visitor on a page that only shows a number -- is the kind of small dishonesty
-   that costs a booking. So the label says what pressing it does.
+   Until the calendar booking is on, "Időpontfoglalás" leads to the request
+   form on the home page (#idopont): treatment, day, time, and she confirms.
+   The phone number stays one tap away in the mobile bar and the contact card.
 
    With no telephone number on file it renders nothing at all rather than a dead
    button. check-content.mjs already refuses to build in that state; this is the
@@ -20,7 +19,7 @@ export default function BookingButton({ variant = 'primary', className = '' }) {
   if (!BUSINESS.phone) return null
 
   const Tag = BOOKING_ONLINE ? Link : 'a'
-  const target = BOOKING_ONLINE ? { to: '/foglalas' } : { href: `tel:${BUSINESS.phone.replace(/\s/g, '')}` }
+  const target = BOOKING_ONLINE ? { to: '/foglalas' } : { href: '/#idopont' }
 
   if (variant === 'compact') {
     return (

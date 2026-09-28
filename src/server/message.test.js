@@ -1,17 +1,23 @@
 import { describe, it, expect } from 'vitest'
-import { composeMessage, createMessages, VOUCHER_MONTHS } from './message.js'
+import { composeMessage, createMessages, VOUCHER_MONTHS, FLEXIBLE } from './message.js'
 import { handle } from './http.js'
 
 const SERVICES = [{ id: 'sved', name: 'Svédmasszázs', minutes: 60, price: 9000 }]
 const who = { name: 'Kiss Anna', phone: '+36 30 123 4567' }
 
 describe('composeMessage', () => {
-  it('turns a callback request into an e-mail with the time window', () => {
-    const r = composeMessage({ kind: 'callback', ...who, when: 'du', serviceId: 'sved' }, SERVICES)
+  it('turns an appointment request into an e-mail with day, time and treatment', () => {
+    const r = composeMessage({ kind: 'booking', ...who, serviceId: 'sved', date: '2026-10-06', time: '10:00' }, SERVICES)
     expect(r.ok).toBe(true)
-    expect(r.mail.subject).toBe('Visszahívást kér: Kiss Anna')
-    expect(r.mail.text).toContain('Kora délután (12-15)')
-    expect(r.mail.text).toContain('Érdekli: Svédmasszázs')
+    expect(r.mail.subject).toBe('Időpontkérés: Kiss Anna, 2026-10-06 10:00')
+    expect(r.mail.text).toContain('október 6.')
+    expect(r.mail.text).toContain('Időpont: 10:00')
+    expect(r.mail.text).toContain('Kezelés: Svédmasszázs')
+  })
+
+  it('accepts a flexible time', () => {
+    const r = composeMessage({ kind: 'booking', ...who, serviceId: 'sved', date: '2026-10-06', time: FLEXIBLE }, SERVICES)
+    expect(r.mail.text).toContain('aznap bármikor jó neki')
   })
 
   it('turns a voucher request into an e-mail with price and validity', () => {
@@ -23,8 +29,10 @@ describe('composeMessage', () => {
   })
 
   it('refuses a bad phone, a missing window, an unknown treatment or a missing recipient', () => {
-    expect(composeMessage({ kind: 'callback', ...who, phone: 'x', when: 'de' }, SERVICES).ok).toBe(false)
-    expect(composeMessage({ kind: 'callback', ...who, when: 'éjjel' }, SERVICES).ok).toBe(false)
+    const ok = { kind: 'booking', ...who, serviceId: 'sved', date: '2026-10-06', time: '10:00' }
+    expect(composeMessage({ ...ok, phone: 'x' }, SERVICES).ok).toBe(false)
+    expect(composeMessage({ ...ok, time: 'éjjel' }, SERVICES).ok).toBe(false)
+    expect(composeMessage({ ...ok, date: 'holnap' }, SERVICES).ok).toBe(false)
     expect(composeMessage({ kind: 'voucher', ...who, serviceId: 'nincs', recipient: 'Éva' }, SERVICES).ok).toBe(false)
     expect(composeMessage({ kind: 'voucher', ...who, serviceId: 'sved', recipient: ' ' }, SERVICES).ok).toBe(false)
     expect(composeMessage({ kind: 'mas', ...who }, SERVICES).ok).toBe(false)
@@ -47,7 +55,7 @@ describe('POST /api/message', () => {
   it('sends one e-mail for a valid form and none for spam', async () => {
     const sent = []
     const messages = createMessages({ mailer: { send: async (m) => sent.push(m) }, to: 'brigitta@x.hu' })
-    const ok = await handle(post({ kind: 'callback', ...who, when: 'de' }), null, '2.2.2.2', messages)
+    const ok = await handle(post({ kind: 'booking', ...who, serviceId: 'svedmasszazs', date: '2026-10-06', time: '10:00' }), null, '2.2.2.2', messages)
     const spam = await handle(post({ website: 'x' }), null, '2.2.2.3', messages)
     expect(ok.status).toBe(200)
     expect(spam.status).toBe(200)

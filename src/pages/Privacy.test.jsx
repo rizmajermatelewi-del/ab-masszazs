@@ -28,7 +28,7 @@ describe('/adatvedelem', () => {
     renderAt('/adatvedelem')
     // The forms exist in every state, so the notice can never say it collects nothing.
     expect(screen.queryByText(/nem gyűjt/)).toBe(null)
-    expect(screen.getByText(/Visszahívás és ajándékutalvány/)).toBeTruthy()
+    expect(screen.getByText(/Időpontkérés és ajándékutalvány/)).toBeTruthy()
     if (BOOKING_ONLINE) {
       expect(screen.getByText(/Online időpontfoglalás/)).toBeTruthy()
       expect(screen.getByText(/Google Naptárban/)).toBeTruthy()
@@ -53,7 +53,7 @@ describe('/adatvedelem', () => {
     renderAt('/adatvedelem')
     const text = document.body.textContent
     expect(forms).toBe(2)
-    expect(text).toContain('visszahívás-kérő űrlapon')
+    expect(text).toContain('időpontkérő űrlapon')
     expect(text).toContain('ajándékutalvány-igénylésnél')
     expect(text).toContain('Gmailen keresztül')
   })
