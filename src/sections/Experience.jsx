@@ -1,4 +1,4 @@
-import { EXPERIENCE_STEPS } from '../data/content'
+import { EXPERIENCE_STEPS, AVOID } from '../data/content'
 import Reveal from '../components/Reveal.jsx'
 
 /* "First time? This is how it goes." For someone who has never had a
@@ -22,6 +22,16 @@ export default function Experience() {
             <p className="mt-5 max-w-[36ch] leading-relaxed text-muted">
               Nem kell tudnod, mit kérj. Megbeszéljük, és mindig szólhatsz, ha valami nem kényelmes.
             </p>
+            {AVOID?.length ? (
+              <div className="mt-8 max-w-[40ch] rounded-2xl border border-lotus/25 bg-paper/70 p-5">
+                <p className="font-display text-xl text-lotus">Mikor halaszd el?</p>
+                <p className="mt-2 text-sm text-ink">Kérlek, inkább egyeztessünk új időpontot, ha</p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-muted">
+                  {AVOID.map((a) => <li key={a}>{a}</li>)}
+                </ul>
+                <p className="mt-3 text-xs text-muted">Várandósság vagy krónikus betegség esetén előtte beszéljük meg.</p>
+              </div>
+            ) : null}
           </div>
         </div>
 

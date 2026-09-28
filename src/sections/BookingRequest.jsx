@@ -6,6 +6,9 @@ import { openDays, timesFor } from '../lib/requestSlots'
 import { formatPrice, formatDuration } from '../lib/format'
 import { sendMessage } from '../lib/sendMessage'
 import { track } from '../data/analytics'
+import { PASSES, passPrice } from '../data/passes'
+import { REFERRAL } from '../data/referral'
+import { buildIcs, googleCalendarUrl } from '../lib/ics'
 import { Field, Area, Honeypot, Submit, Consent } from '../components/Form.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { FormStatus } from './GiftCard.jsx'
@@ -25,12 +28,18 @@ export default function BookingRequest() {
   const [dayIso, setDayIso] = useState(null)
   const [time, setTime] = useState(null)
   const [state, setState] = useState('idle')
+  const [pass, setPass] = useState(null)
 
   useEffect(() => setDays(openDays(BUSINESS.hours)), [])
 
   // "Ezt kérem" in the recommender preselects its treatment here.
   useEffect(() => {
-    const onBook = (e) => e.detail && setServiceId(e.detail)
+    // detail: a service id, or { serviceId, pass } from the pass calculator.
+    const onBook = (e) => {
+      const d = typeof e.detail === 'string' ? { serviceId: e.detail } : e.detail ?? {}
+      if (d.serviceId) setServiceId(d.serviceId)
+      setPass(PASSES.sizes.includes(d.pass) ? d.pass : null)
+    }
     window.addEventListener(BOOK_EVENT, onBook)
     return () => window.removeEventListener(BOOK_EVENT, onBook)
   }, [])
@@ -57,6 +66,8 @@ export default function BookingRequest() {
       phone: f.get('phone'),
       email: f.get('email'),
       note: f.get('note'),
+      pass,
+      referrer: f.get('referrer'),
       website: f.get('website'),
     })
     setState(result)
@@ -65,6 +76,7 @@ export default function BookingRequest() {
 
   const summary = [
     service.name,
+    pass ? `${pass} alkalmas bérlet` : null,
     day ? `${day.weekday.toLowerCase()}, ${day.label}` : null,
     chosenTime === FLEXIBLE ? 'rugalmas időpont' : chosenTime,
   ]
@@ -87,6 +99,7 @@ export default function BookingRequest() {
               <p className="font-display text-3xl text-lotus">Köszönöm!</p>
               <p className="mt-2 text-ink">{summary}</p>
               <p className="mt-2 text-sm text-muted">Hamarosan hívlak vagy írok, hogy megerősítsem.</p>
+              {chosenTime && chosenTime !== FLEXIBLE ? <AddToCalendar service={service} day={day} time={chosenTime} /> : null}
             </div>
           ) : (
             <form onSubmit={submit} className="relative mt-10 space-y-9">
@@ -101,6 +114,12 @@ export default function BookingRequest() {
                     </Choice>
                   ))}
                 </div>
+                {pass ? (
+                  <p className="swap-in mt-3 inline-flex items-center gap-3 rounded-full bg-lotus/10 px-4 py-2 text-sm text-lotus">
+                    Bérlet: {pass} alkalom, {formatPrice(passPrice(service.price, pass).price)}
+                    <button type="button" onClick={() => setPass(null)} aria-label="Bérlet törlése" className="grid h-6 w-6 place-items-center rounded-full hover:bg-lotus/15">×</button>
+                  </p>
+                ) : null}
               </Step>
 
               <Step n={2} title="Nap">
@@ -140,6 +159,7 @@ export default function BookingRequest() {
                 </div>
                 <div className="mt-5 grid gap-5">
                   <Field label="E-mail (nem kötelező)" name="email" type="email" maxLength={120} autoComplete="email" />
+                  {REFERRAL.text ? <Field label="Ki ajánlott engem? (nem kötelező)" name="referrer" maxLength={80} /> : null}
                   <Area label="Üzenet (nem kötelező)" name="note" maxLength={500} />
                 </div>
               </Step>
@@ -188,5 +208,30 @@ function Choice({ name, checked, onChange, className = '', children }) {
         {children}
       </span>
     </label>
+  )
+}
+
+/* After a sent request with a concrete time: put it in the visitor's own
+   calendar. Built in the browser; the .ics goes straight to a download. */
+function AddToCalendar({ service, day, time }) {
+  const ev = {
+    date: day.iso,
+    time,
+    minutes: service.minutes,
+    title: `${service.name}, ${BUSINESS.name}`,
+    location: `${BUSINESS.postalCode} ${BUSINESS.city}, ${BUSINESS.street}`,
+    description: `Időpontkérés, még megerősítésre vár. Telefon: ${BUSINESS.phone}`,
+  }
+  const ics = `data:text/calendar;charset=utf-8,${encodeURIComponent(buildIcs(ev))}`
+  const btn = 'inline-flex min-h-[44px] items-center rounded-full border border-lotus/40 px-5 text-sm font-medium text-ink transition-colors hover:border-lotus hover:bg-lotus hover:text-paper'
+  return (
+    <div className="mt-6 flex flex-wrap gap-3">
+      <a href={ics} download="ab-masszazs-idopont.ics" className={btn} data-umami-event="Naptárhoz adom (.ics)">
+        Naptárhoz adom
+      </a>
+      <a href={googleCalendarUrl(ev)} target="_blank" rel="noopener noreferrer" className={btn} data-umami-event="Naptárhoz adom (Google)">
+        Google Naptár
+      </a>
+    </div>
   )
 }

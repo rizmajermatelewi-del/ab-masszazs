@@ -66,6 +66,15 @@ export const ABOUT = pick('ABOUT', {
   imageAlt: 'Illusztráció: világos kezelőszoba masszázságyal és orchideával',
 })
 
+/* FILLER (Máté 2026-09-28): when to postpone. Standard, cautious list;
+   Brigitta confirms or rewrites it. No diagnosis, only "let's wait". */
+export const AVOID = pick('AVOID', [
+  'lázas vagy, megfáztál, vagy más fertőző betegséged van,',
+  'friss sérülésed, rándulásod vagy zúzódásod van a kezelendő területen,',
+  'nemrég műtöttek,',
+  'bőrgyulladásod vagy nyílt sebed van ott, ahol masszírozni kellene.',
+])
+
 /* FILLER: how a first visit goes. Numbering comes from the array index. */
 export const EXPERIENCE_STEPS = pick('EXPERIENCE_STEPS', [
   { title: 'Megérkezés', text: 'Leveszed a kabátod, iszol egy pohár vizet, és nem kell sietni sehova.' },

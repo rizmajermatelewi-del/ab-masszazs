@@ -11,6 +11,7 @@ import GiftCard from '../sections/GiftCard.jsx'
 import Faq from '../sections/Faq.jsx'
 import Recommender from '../sections/Recommender.jsx'
 import BookingRequest from '../sections/BookingRequest.jsx'
+import Passes from '../sections/Passes.jsx'
 import ReviewInvite from '../sections/ReviewInvite.jsx'
 import Visit from '../sections/Visit.jsx'
 import Footer from '../sections/Footer.jsx'
@@ -33,6 +34,7 @@ export default function Home() {
         <Hero />
         <About />
         <Services />
+        <Passes />
         <Recommender />
         <Experience />
         <Editorial />

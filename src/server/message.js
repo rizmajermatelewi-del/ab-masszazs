@@ -1,5 +1,6 @@
 import { SERVICES } from '../data/services.js'
 import { formatPrice, formatDuration } from '../lib/format.js'
+import { PASSES } from '../data/passes.js'
 
 /* The two small forms (callback request, gift voucher request) as one
    e-mail to her. They need only the Gmail credentials, not the calendar, so
@@ -46,6 +47,8 @@ export function composeMessage(body = {}, services = SERVICES) {
     if (!service || !DATE.test(date) || !(time === FLEXIBLE || TIME.test(time))) return INVALID
     const day = fullDate.format(new Date(`${date}T12:00:00Z`))
     const when = time === FLEXIBLE ? 'aznap bármikor jó neki' : time
+    const pass = PASSES.sizes.includes(Number(body.pass)) ? Number(body.pass) : null
+    const referrer = line(body.referrer, 80)
     const note = text(body.note, 500)
     return {
       ok: true,
@@ -58,6 +61,8 @@ export function composeMessage(body = {}, services = SERVICES) {
           `Kezelés: ${service.name}, ${formatDuration(service.minutes)}, ${formatPrice(service.price)}`,
           `Nap: ${day}`,
           `Időpont: ${when}`,
+          pass && `Bérletet kér: ${pass} alkalmas`,
+          referrer && `Ajánlotta: ${referrer}`,
           '',
           ...contact,
           note && `\nÜzenet:\n${note}`,
