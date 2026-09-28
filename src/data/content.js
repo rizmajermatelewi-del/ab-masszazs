@@ -57,10 +57,11 @@ export const HERO = pick('HERO', {
 })
 
 export const ABOUT = pick('ABOUT', {
-  // FILLER: only facts we know, plus one sentence she should confirm.
+  // FILLER (generated, Máté 2026-09-28: "majd max átírjuk"). Brigitta rewrites it.
   text:
     'Apostol Brigitta vagyok. Inárcson, egy csendes, klimatizált kezelőszobában várlak svédmasszázzsal, Yumeiho terápiával és talpreflexológiával.\n\n' +
-    'Minden kezelés egy rövid beszélgetéssel kezdődik: elmondod, hol érzed a feszültséget, és ahhoz igazítom a masszázst. A célom, hogy könnyebben, nyugodtabban menj haza, mint ahogy jöttél.',
+    'Hiszek abban, hogy egy jó masszázs nem csak az izmoknak szól: egy óra, amikor nem kell sehova sietni, és valaki csak rád figyel. Minden kezelés egy rövid beszélgetéssel kezdődik, elmondod, hol érzed a feszültséget, és ahhoz igazítom a mozdulatokat.\n\n' +
+    'A célom egyszerű: hogy könnyebben, nyugodtabban menj haza, mint ahogy jöttél, és szívesen gyere vissza.',
   image: '/img/rolam-szoba.webp',
   imageAlt: 'Illusztráció: világos kezelőszoba masszázságyal és orchideával',
 })
@@ -113,11 +114,10 @@ export const GIFT_CARD = pick('GIFT_CARD', {
   text: '',
 })
 
-/* Only questions with a true answer. Parking, payment and the 24-hour
-   cancellation request are Máté's answers (2026-09-28); everything else is
-   built from the facts in business.js / services.js, so a changed phone
-   number or price cannot leave a stale copy here. Questions without a known
-   answer (what to bring, what to wear) wait for Brigitta. */
+/* Parking, payment and the 24-hour cancellation request are Máté's answers
+   (2026-09-28); the facts are built from business.js / services.js, so a
+   changed phone number or price cannot leave a stale copy here. The last
+   three answers are generated FILLER for Brigitta to confirm or rewrite. */
 const weekHours = () => {
   const [first, ...rest] = BUSINESS.hours
   if (!first || rest.some((h) => h.opens !== first.opens || h.closes !== first.closes)) return ''
@@ -150,4 +150,14 @@ export const FAQ = pick('FAQ', [
     a: `Igen. Az ajándékutalvány egy választott kezelésre szól, és a kiállítástól számított ${VOUCHER_MONTHS} hónapig érvényes. Online kérheted, a fizetés és az átvétel személyesen történik.`,
   },
   { q: 'Milyen a kezelőszoba?', a: 'Csendes, klimatizált helyiségben dolgozom.' },
+  // FILLER answers below (generated, Máté 2026-09-28): Brigitta confirms or rewrites.
+  {
+    q: 'Mit hozzak magammal?',
+    a: 'Semmi különlegeset: kényelmes ruhában gyere. Törölközőt, lepedőt és olajat én biztosítok.',
+  },
+  { q: 'Férfiakat is fogadsz?', a: 'Igen, nőket és férfiakat egyaránt szívesen várok.' },
+  {
+    q: 'Mennyivel előtte érkezzek?',
+    a: 'Elég pár perccel a megbeszélt időpont előtt, hogy nyugodtan átöltözhess, és ne kapkodva kezdjünk.',
+  },
 ])
