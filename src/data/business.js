@@ -13,28 +13,34 @@
    és a build szándékosan elhasal. Lásd demo.js fejlécét. */
 import { DEMO, DEMO_BUSINESS } from './demo.js'
 
+/* Cím, telefon, nyitvatartás: a Google Cégprofiljáról (2026-09-28). */
 const REAL = {
-  name: '',
+  name: 'AB Masszázs',
   legalName: '',
   tagline: '',
-  street: '',
-  city: '',
-  postalCode: '',
-  phone: '',
+  street: 'Május 1. utca 12.',
+  city: 'Inárcs',
+  postalCode: '2365',
+  phone: '+36 30 635 7807',
   email: '',
   facebook: '',
   instagram: '',
   /* A plain link to Google Maps, not an embedded iframe: an embed sets
      third-party cookies, which would drag a consent banner onto a site that
      otherwise needs none (spec §7). */
-  mapsUrl: '',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=AB+Massz%C3%A1zs+In%C3%A1rcs',
   /* The tárhelyszolgáltató, named in the adatvédelmi tájékoztató because it is
      a processor: it sees the request logs. Empty until the host is actually
      chosen (spec §3 leaves it between Cloudflare Pages and Netlify), and the
      privacy page says nothing about hosting until it is filled. */
-  hostingProvider: '',
-  /* e.g. { day: 'Hétfő', opens: '09:00', closes: '18:00' } */
-  hours: [],
+  hostingProvider: 'Netlify, Inc. (512 2nd Street, Suite 200, San Francisco, CA 94107, USA)',
+  hours: [
+    { day: 'Hétfő', opens: '08:00', closes: '18:00' },
+    { day: 'Kedd', opens: '08:00', closes: '18:00' },
+    { day: 'Szerda', opens: '08:00', closes: '18:00' },
+    { day: 'Csütörtök', opens: '08:00', closes: '18:00' },
+    { day: 'Péntek', opens: '08:00', closes: '18:00' },
+  ],
 }
 
 export const BUSINESS = DEMO ? DEMO_BUSINESS : REAL

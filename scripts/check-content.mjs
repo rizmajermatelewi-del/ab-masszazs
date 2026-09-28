@@ -27,6 +27,11 @@ if (DEMO) {
    empty data is exactly what Tasks 4-6 do. */
 const missing = [...missingFacts()]
 if (!SERVICES.length) missing.push('services (the price list)')
+for (const s of SERVICES) {
+  if (!Number.isInteger(s.minutes) || !Number.isInteger(s.price)) {
+    missing.push(`${s.name}: minutes and price`)
+  }
+}
 
 if (missing.length) {
   console.error('\nThis site cannot be built for launch yet. Still missing:\n')

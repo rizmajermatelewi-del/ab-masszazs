@@ -14,6 +14,30 @@
    elhasal. Lásd demo.js fejlécét. */
 import { DEMO, DEMO_SERVICES } from './demo.js'
 
-const REAL = []
+/* Nevek és leírások a szórólapjáról (Google Cégprofil, 2026-09-28). Időtartam
+   és ár még nincs: null, és a check-content addig nem engedi a buildet. */
+const REAL = [
+  {
+    id: 'svedmasszazs',
+    name: 'Svédmasszázs',
+    minutes: null,
+    price: null,
+    desc: 'Frissülés, ellazulás, teljes testi-lelki kikapcsolódás.',
+  },
+  {
+    id: 'yumeiho',
+    name: 'Yumeiho terápia',
+    minutes: null,
+    price: null,
+    desc: 'Harmonizálás, energiaáramlás, test és lélek egyensúlya.',
+  },
+  {
+    id: 'talpreflexologia',
+    name: 'Talpreflexológia',
+    minutes: null,
+    price: null,
+    desc: 'Talpmasszázzsal a szervek működésének támogatásáért.',
+  },
+]
 
 export const SERVICES = DEMO ? DEMO_SERVICES : REAL
