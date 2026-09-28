@@ -42,13 +42,13 @@ export default function Services() {
                 className="group border-b border-ink/[0.08]"
               >
                 <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-baseline gap-x-5 gap-y-2 py-8 transition-[padding] duration-700 ease-fluid md:group-hover:pl-3">
-                  <span className="font-display text-xs tabular-nums text-clay">
+                  <span className="font-display text-xs tabular-nums text-lotus">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <h3 className="text-2xl leading-tight text-ink sm:text-3xl">{service.name}</h3>
                   <div className="flex items-baseline gap-5">
                     <span className="text-sm text-faint">{formatDuration(service.minutes)}</span>
-                    <span className="font-display text-xl tabular-nums text-clay sm:text-2xl">
+                    <span className="font-display text-xl tabular-nums text-lotus sm:text-2xl">
                       {formatPrice(service.price)}
                     </span>
                   </div>

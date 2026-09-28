@@ -14,28 +14,29 @@
    elhasal. Lásd demo.js fejlécét. */
 import { DEMO, DEMO_SERVICES } from './demo.js'
 
-/* Nevek és leírások a szórólapjáról (Google Cégprofil, 2026-09-28). Időtartam
-   és ár még nincs: null, és a check-content addig nem engedi a buildet. */
+/* Nevek és leírások a szórólapjáról (Google Cégprofil, 2026-09-28).
+   ponytail: az idők és árak ALAPÉRTÉKEK, Máté kérésére (2026-09-28: „ár mindegy
+   most legyen alap, majd változtatunk"). Brigittával egyeztetni és átírni. */
 const REAL = [
   {
     id: 'svedmasszazs',
     name: 'Svédmasszázs',
-    minutes: null,
-    price: null,
+    minutes: 60,
+    price: 9000,
     desc: 'Frissülés, ellazulás, teljes testi-lelki kikapcsolódás.',
   },
   {
     id: 'yumeiho',
     name: 'Yumeiho terápia',
-    minutes: null,
-    price: null,
+    minutes: 60,
+    price: 10000,
     desc: 'Harmonizálás, energiaáramlás, test és lélek egyensúlya.',
   },
   {
     id: 'talpreflexologia',
     name: 'Talpreflexológia',
-    minutes: null,
-    price: null,
+    minutes: 45,
+    price: 7000,
     desc: 'Talpmasszázzsal a szervek működésének támogatásáért.',
   },
 ]

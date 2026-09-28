@@ -43,7 +43,7 @@ function Step({ n, title, children }) {
   return (
     <section className="border-t border-line pt-8 motion-safe:animate-[rise_0.6s_cubic-bezier(0.32,0.72,0,1)]">
       <h2 className="flex items-baseline gap-3 font-display text-2xl tracking-tight text-ink">
-        <span className="font-sans text-xs tabular-nums text-clay">{String(n).padStart(2, '0')}</span>
+        <span className="font-sans text-xs tabular-nums text-lotus">{String(n).padStart(2, '0')}</span>
         {title}
       </h2>
       <div className="mt-5">{children}</div>
@@ -52,7 +52,7 @@ function Step({ n, title, children }) {
 }
 
 const choice = (on) =>
-  `rounded-2xl border px-4 py-3 text-left transition-[border-color,background-color,box-shadow] duration-500 ease-fluid focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay ${
+  `rounded-2xl border px-4 py-3 text-left transition-[border-color,background-color,box-shadow] duration-500 ease-fluid focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lotus ${
     on ? 'border-ink bg-ink text-paper' : 'border-line bg-paper hover:border-ink/40'
   }`
 
@@ -149,7 +149,7 @@ export default function Booking() {
       <main className="mx-auto max-w-3xl px-5 pb-24 pt-12 sm:px-8 sm:pt-16">
         {state === 'done' && done ? (
           <div role="status" className="rounded-3xl border border-line bg-tint p-8 sm:p-10">
-            <p className="text-xs uppercase tracking-[0.2em] text-clay">{done.demo ? 'Demó — nem jött létre foglalás' : 'Lefoglalva'}</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-lotus">{done.demo ? 'Demó — nem jött létre foglalás' : 'Lefoglalva'}</p>
             <h1 className="mt-3 font-display text-3xl tracking-tight text-ink sm:text-4xl">Várlak!</h1>
             <p className="mt-5 text-lg text-ink">
               {done.service.name}, {formatDuration(done.service.minutes)}
@@ -161,7 +161,7 @@ export default function Booking() {
                 ? 'Élesben ide egy visszaigazoló e-mail érkezne, benne a lemondás linkjével.'
                 : `A visszaigazolást elküldtem a(z) ${done.email} címre. Ha mégsem jó az időpont, az e-mailben lévő linkkel le tudod mondani.`}
             </p>
-            <Link to="/" className="mt-8 inline-block text-sm text-clay underline underline-offset-4">
+            <Link to="/" className="mt-8 inline-block text-sm text-lotus underline underline-offset-4">
               Vissza a főoldalra
             </Link>
           </div>
@@ -173,13 +173,13 @@ export default function Booking() {
             </p>
 
             {state === 'down' && (
-              <div role="alert" className="mt-8 rounded-2xl border border-clay/40 bg-tint p-5 text-ink">
+              <div role="alert" className="mt-8 rounded-2xl border border-lotus/40 bg-tint p-5 text-ink">
                 {BOOKING_ONLINE ? 'Az online foglalás most technikai okból nem elérhető.' : 'Időpontot most telefonon tudsz foglalni.'}
                 {tel && (
                   <>
                     {' '}
                     Hívj, és telefonon egyeztetünk:{' '}
-                    <a href={tel} className="font-medium text-clay underline underline-offset-4">
+                    <a href={tel} className="font-medium text-lotus underline underline-offset-4">
                       {BUSINESS.phone}
                     </a>
                   </>
@@ -229,7 +229,7 @@ export default function Booking() {
                     <button
                       type="button"
                       onClick={() => setShown((n) => n + PAGE)}
-                      className="mt-4 text-sm text-clay underline underline-offset-4"
+                      className="mt-4 text-sm text-lotus underline underline-offset-4"
                     >
                       Későbbi napok
                     </button>
@@ -299,7 +299,7 @@ export default function Booking() {
                         <input type="checkbox" name="consent" required className="mt-1 h-4 w-4 accent-[#231F1C]" />
                         <span>
                           Elolvastam az{' '}
-                          <Link to="/adatvedelem" className="text-clay underline underline-offset-4">
+                          <Link to="/adatvedelem" className="text-lotus underline underline-offset-4">
                             adatkezelési tájékoztatót
                           </Link>
                           , és hozzájárulok, hogy a foglaláshoz megadott adataimat kezeld.
@@ -307,7 +307,7 @@ export default function Booking() {
                       </label>
 
                       {error && (
-                        <p role="alert" className="rounded-2xl border border-clay/40 bg-tint px-4 py-3 text-ink">
+                        <p role="alert" className="rounded-2xl border border-lotus/40 bg-tint px-4 py-3 text-ink">
                           {error}
                         </p>
                       )}
@@ -315,7 +315,7 @@ export default function Booking() {
                       <button
                         type="submit"
                         disabled={state === 'sending'}
-                        className="inline-flex min-h-[56px] items-center rounded-full bg-ink px-8 text-sm font-medium text-paper shadow-lift transition-[transform,background-color] duration-700 ease-fluid hover:bg-clay active:scale-[0.98] disabled:opacity-60"
+                        className="inline-flex min-h-[56px] items-center rounded-full bg-ink px-8 text-sm font-medium text-paper shadow-lift transition-[transform,background-color] duration-700 ease-fluid hover:bg-lotus active:scale-[0.98] disabled:opacity-60"
                       >
                         {state === 'sending' ? 'Foglalás folyamatban…' : 'Lefoglalom'}
                       </button>

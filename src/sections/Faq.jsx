@@ -29,8 +29,8 @@ export default function Faq() {
               <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg text-ink marker:content-none [&::-webkit-details-marker]:hidden">
                 {q}
                 <span aria-hidden="true" className="relative grid h-6 w-6 shrink-0 place-items-center">
-                  <span className="absolute h-px w-3.5 bg-clay" />
-                  <span className="absolute h-px w-3.5 rotate-90 bg-clay transition-transform duration-500 ease-fluid group-open:rotate-0" />
+                  <span className="absolute h-px w-3.5 bg-lotus" />
+                  <span className="absolute h-px w-3.5 rotate-90 bg-lotus transition-transform duration-500 ease-fluid group-open:rotate-0" />
                 </span>
               </summary>
               <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-fluid group-open:grid-rows-[1fr]">

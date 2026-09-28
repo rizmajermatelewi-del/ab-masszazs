@@ -16,14 +16,17 @@ import { DEMO, DEMO_BUSINESS } from './demo.js'
 /* Cím, telefon, nyitvatartás: a Google Cégprofiljáról (2026-09-28). */
 const REAL = {
   name: 'AB Masszázs',
-  legalName: '',
-  tagline: '',
+  legalName: 'Apostol Brigitta',
+  tagline: 'Svédmasszázs, Yumeiho terápia és talpreflexológia Inárcson, csendes, klimatizált kezelőszobában.',
   street: 'Május 1. utca 12.',
   city: 'Inárcs',
   postalCode: '2365',
   phone: '+36 30 635 7807',
   email: '',
-  facebook: '',
+  facebook: 'https://www.facebook.com/brigitta.apostol.9',
+  /* Her Facebook is where clients already write to her, so a Messenger link
+     is a real second booking channel, not decoration. */
+  messenger: 'https://m.me/brigitta.apostol.9',
   instagram: '',
   /* A plain link to Google Maps, not an embedded iframe: an embed sets
      third-party cookies, which would drag a consent banner onto a site that

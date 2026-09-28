@@ -83,7 +83,7 @@ export default function Header() {
                 {label}
                 {/* Underline grows from the left rather than fading in, so the
                     hover reads as a direction instead of a state change. */}
-                <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-clay transition-transform duration-500 ease-fluid group-hover:scale-x-100" />
+                <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-lotus transition-transform duration-500 ease-fluid group-hover:scale-x-100" />
               </span>
             </a>
           ))}

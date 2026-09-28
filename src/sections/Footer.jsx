@@ -14,7 +14,7 @@ export default function Footer() {
               href={BUSINESS.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] items-center transition-colors duration-200 hover:text-clay"
+              className="inline-flex min-h-[44px] items-center transition-colors duration-200 hover:text-lotus"
             >
               Facebook
             </a>
@@ -24,14 +24,14 @@ export default function Footer() {
               href={BUSINESS.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] items-center transition-colors duration-200 hover:text-clay"
+              className="inline-flex min-h-[44px] items-center transition-colors duration-200 hover:text-lotus"
             >
               Instagram
             </a>
           ) : null}
           <Link
             to="/adatvedelem"
-            className="inline-flex min-h-[44px] items-center underline decoration-line underline-offset-4 transition-colors duration-200 hover:text-clay"
+            className="inline-flex min-h-[44px] items-center underline decoration-line underline-offset-4 transition-colors duration-200 hover:text-lotus"
           >
             Adatvédelem
           </Link>

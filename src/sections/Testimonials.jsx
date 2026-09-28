@@ -25,7 +25,7 @@ export default function Testimonials() {
               </p>
             </blockquote>
             {lead.name ? (
-              <figcaption className="mt-6 text-sm uppercase tracking-label text-clay">
+              <figcaption className="mt-6 text-sm uppercase tracking-label text-lotus">
                 {lead.name}
               </figcaption>
             ) : null}

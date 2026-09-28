@@ -64,7 +64,7 @@ export default function Privacy() {
       <main className="mx-auto max-w-2xl px-5 py-16 sm:px-8 sm:py-20">
       <h1 className="text-3xl tracking-tight text-ink sm:text-4xl">Adatkezelési tájékoztató</h1>
 
-      <div className="mt-4 h-px w-16 bg-clay/40" />
+      <div className="mt-4 h-px w-16 bg-lotus/40" />
 
       <div className="mt-10 space-y-6 leading-relaxed text-muted">
         {/* Demó módban ez a lap hazudna magáról: a fotók az images.unsplash.com
@@ -109,7 +109,7 @@ export default function Privacy() {
           <p>
             Kérdés esetén:{' '}
             <a
-              className="text-clay underline decoration-clay/40 underline-offset-4 transition-colors duration-200 hover:decoration-clay"
+              className="text-lotus underline decoration-lotus/40 underline-offset-4 transition-colors duration-200 hover:decoration-lotus"
               href={`mailto:${BUSINESS.email}`}
             >
               {BUSINESS.email}
@@ -120,7 +120,7 @@ export default function Privacy() {
 
       <Link
         to="/"
-        className="mt-12 inline-flex min-h-[44px] items-center text-sm text-clay underline decoration-clay/40 underline-offset-4 transition-colors duration-200 hover:decoration-clay"
+        className="mt-12 inline-flex min-h-[44px] items-center text-sm text-lotus underline decoration-lotus/40 underline-offset-4 transition-colors duration-200 hover:decoration-lotus"
       >
         Vissza a főoldalra
       </Link>

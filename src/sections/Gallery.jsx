@@ -62,7 +62,7 @@ export default function Gallery() {
             href={BUSINESS.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-12 inline-flex min-h-[44px] items-center text-sm text-clay underline decoration-clay/30 underline-offset-4 transition-colors duration-700 ease-fluid hover:decoration-clay"
+            className="mt-12 inline-flex min-h-[44px] items-center text-sm text-lotus underline decoration-lotus/30 underline-offset-4 transition-colors duration-700 ease-fluid hover:decoration-lotus"
           >
             További pillanatok Instagramon
           </a>

@@ -35,7 +35,7 @@ export default function BookingBar() {
       >
         <Tag
           {...target}
-          className="flex min-h-[52px] w-full items-center justify-center rounded-full bg-ink text-sm font-medium text-paper transition-transform duration-500 ease-fluid active:scale-[0.99]"
+          className="flex min-h-[52px] w-full items-center justify-center rounded-full bg-lotus text-sm font-medium text-paper transition-transform duration-500 ease-fluid active:scale-[0.99]"
         >
           Időpontfoglalás
         </Tag>

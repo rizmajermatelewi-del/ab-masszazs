@@ -15,7 +15,7 @@ export default function Usp() {
           {USP.map((item, index) => (
             <Reveal key={item.title} delay={index * 70}>
               <div>
-                <span className="font-display text-xs tabular-nums text-clay">
+                <span className="font-display text-xs tabular-nums text-lotus">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <dt className="mt-4 font-display text-xl text-ink">{item.title}</dt>

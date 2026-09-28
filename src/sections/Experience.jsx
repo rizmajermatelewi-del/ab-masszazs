@@ -29,7 +29,7 @@ export default function Experience() {
             <li key={step.title} className="border-b border-ink/[0.08]">
               <Reveal delay={index * 60}>
                 <div className="flex gap-6 py-9 sm:gap-10">
-                  <span className="font-display text-2xl tabular-nums leading-none text-clay/70 sm:text-3xl">
+                  <span className="font-display text-2xl tabular-nums leading-none text-lotus/70 sm:text-3xl">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <div>

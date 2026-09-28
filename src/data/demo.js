@@ -15,7 +15,7 @@
    ║  KIADÁS ELŐTT: DEMO = false, és a valódi adatok mennek a                   ║
    ║  business.js / services.js / content.js fájlokba.                         ║
    ╚═══════════════════════════════════════════════════════════════════════════╝ */
-export const DEMO = true
+export const DEMO = false
 
 /* Külső fotók. Élesben nem maradhatnak: idegen kezelőszoba, idegen kezek.
    Az alt szövegek szándékosan bevallják, hogy demók — nem láttam ezeket a

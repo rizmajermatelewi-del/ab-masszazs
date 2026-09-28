@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { BUSINESS } from '../data/business'
+import { openStatus } from '../lib/openStatus'
 import Reveal from '../components/Reveal.jsx'
 
 /* The section a local searcher actually came for: where, when, and the number
@@ -12,6 +14,16 @@ import Reveal from '../components/Reveal.jsx'
 export default function Visit() {
   const hasAddress = Boolean(BUSINESS.street && BUSINESS.city)
   const address = `${BUSINESS.postalCode} ${BUSINESS.city}, ${BUSINESS.street}`.trim()
+  /* Computed in the browser only: the prerendered HTML is built once and
+     would otherwise say "open" or "closed" as of the build. Refreshed each
+     minute for a page left open. */
+  const [status, setStatus] = useState('')
+  useEffect(() => {
+    const update = () => setStatus(openStatus(BUSINESS.hours))
+    update()
+    const t = setInterval(update, 60_000)
+    return () => clearInterval(t)
+  }, [])
 
   /* Without this the wrapper still paints a tinted, tall empty band when none
      of the three blocks has data. check-content.mjs happens to require all
@@ -33,7 +45,7 @@ export default function Visit() {
             <div className="flex flex-col gap-12">
               {hasAddress ? (
                 <div>
-                  <h3 className="text-[10px] font-medium uppercase tracking-label text-faint">
+                  <h3 className="font-sans text-[11px] font-semibold uppercase tracking-label text-faint">
                     Cím
                   </h3>
                   <p className="mt-4 font-display text-xl leading-snug text-ink">{address}</p>
@@ -42,9 +54,9 @@ export default function Visit() {
                       href={BUSINESS.mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group mt-3 inline-flex min-h-[44px] items-center gap-2 text-sm text-clay"
+                      className="group mt-3 inline-flex min-h-[44px] items-center gap-2 text-sm text-lotus"
                     >
-                      <span className="underline decoration-clay/30 underline-offset-4 transition-colors duration-700 ease-fluid group-hover:decoration-clay">
+                      <span className="underline decoration-lotus/30 underline-offset-4 transition-colors duration-700 ease-fluid group-hover:decoration-lotus">
                         Megnyitás a térképen
                       </span>
                       <svg
@@ -64,27 +76,41 @@ export default function Visit() {
 
               {BUSINESS.phone ? (
                 <div>
-                  <h3 className="text-[10px] font-medium uppercase tracking-label text-faint">
+                  <h3 className="font-sans text-[11px] font-semibold uppercase tracking-label text-faint">
                     Időpontért
                   </h3>
                   {/* Phase 1 has no booking flow. Until Phase 2 replaces this
                       block, the honest call to action is her telephone number. */}
                   <a
                     href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}
-                    className="mt-4 inline-flex min-h-[44px] items-center font-display text-2xl text-clay underline decoration-clay/30 underline-offset-[6px] transition-colors duration-700 ease-fluid hover:decoration-clay"
+                    className="mt-4 inline-flex min-h-[44px] items-center font-display text-2xl text-lotus underline decoration-lotus/30 underline-offset-[6px] transition-colors duration-700 ease-fluid hover:decoration-lotus"
                   >
                     {BUSINESS.phone}
                   </a>
+                  {BUSINESS.messenger ? (
+                    <a
+                      href={BUSINESS.messenger}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 flex min-h-[44px] items-center text-sm text-lotus underline decoration-lotus/30 underline-offset-4 transition-colors duration-700 ease-fluid hover:decoration-lotus"
+                    >
+                      vagy írj Messengeren
+                    </a>
+                  ) : null}
                 </div>
               ) : null}
             </div>
 
             {BUSINESS.hours.length ? (
               <div>
-                <h3 className="text-[10px] font-medium uppercase tracking-label text-faint">
+                <h3 className="font-sans text-[11px] font-semibold uppercase tracking-label text-faint">
                   Nyitvatartás
                 </h3>
-                <dl className="mt-4">
+                {/* Polite live region: a page left open updates each minute. */}
+                <p aria-live="polite" className="mt-3 min-h-[1.5rem] text-sm font-medium text-lotus">
+                  {status}
+                </p>
+                <dl className="mt-2">
                   {BUSINESS.hours.map(({ day, opens, closes }, index) => (
                     <div
                       key={day}

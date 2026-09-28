@@ -19,13 +19,14 @@ describe('app shell', () => {
        this test asserting only that getAllByText did not throw.
 
        Derived rather than a literal, because the number moves with the data and
-       for a good reason. The header wordmark and the hero both always carry the
-       name -- the hero as its h1 while there is no headline, as the eyebrow
-       above it once there is. The voucher mock-up carries it a third time, but
-       only once she actually sells vouchers. A hardcoded 2 goes red the day
-       real content lands, which is precisely the day it must not. */
+       for a good reason. The header wordmark always carries the name as one
+       text node; the voucher mock-up carries it again, but only once she
+       actually sells vouchers. The hero's h1 is her logo lockup, split across
+       spans, so it is checked by its text content instead. */
     const brand = BUSINESS.name || 'AB Masszázs'
-    expect(screen.getAllByText(brand)).toHaveLength(GIFT_CARD.enabled ? 3 : 2)
+    expect(screen.getAllByText(brand)).toHaveLength(GIFT_CARD.enabled ? 2 : 1)
+    const h1 = screen.getByRole('heading', { level: 1 })
+    expect(h1.textContent.replace(/\s+/g, ' ').trim()).toBe(brand)
   })
 
   /* check-content.mjs stops demo content reaching a server. Nothing stopped it
