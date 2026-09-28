@@ -33,28 +33,47 @@ function BookingData({ owner }) {
         Az adatok egyetlen helyen tárolódnak: az időpont a naptárban, a Google Naptárban (Google
         Ireland Ltd.), a visszaigazolás pedig e-mailben, Gmailen keresztül. Adatbázis, hírlevél,
         látogatottság-mérő nincs; az oldal saját sütit nem használ. Az adatokat {RETENTION} őrzöm,
-        utána törlöm.
-      </p>
-      <p>
-        Kérlek, egészségügyi adatot ne írj a megjegyzésbe; ha valamire figyelnem kell, azt
-        személyesen beszéljük meg.
-      </p>
-      <p>
-        Bármikor kérheted, hogy megmutassam, kijavítsam vagy töröljem az adataidat, és
-        visszavonhatod a hozzájárulásodat; a foglalást a visszaigazoló e-mailben lévő linkkel magad
-        is lemondhatod. Panasszal a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (naih.hu)
-        fordulhatsz.
+        utána törlöm. A foglalást a visszaigazoló e-mailben lévő linkkel magad is lemondhatod.
       </p>
     </>
   )
 }
 
-/* Two states. With booking off, deliberately short, because it is true: no form, no
-   analytics, no cookies of its own and no third-party embeds. Phase 2 replaces
-   this with the real tájékoztató covering booking data — name, telephone
-   number, e-mail address — Google Calendar as processor, and the retention
-   period. Writing that text now, before the form it describes exists, would be
-   a document that does not match the site. */
+/* The callback and voucher forms (src/server/message.js): what they ask,
+   why, where it goes. Written against the code: the submission becomes one
+   e-mail in her Gmail inbox and nothing else stores it. */
+function FormsData({ owner }) {
+  const who = owner || 'a szolgáltató'
+  return (
+    <>
+      <p>
+        <strong>Visszahívás és ajándékutalvány.</strong> A visszahívás-kérő űrlapon a nevedet,
+        telefonszámodat, a számodra kényelmes idősávot, az érdeklődési körödet és az esetleges
+        üzenetedet kérem el. Az ajándékutalvány-igénylésnél ezen felül a választott kezelést, a
+        megajándékozott nevét és az utalványra kért üzenetet; az e-mail cím mindkét helyen
+        opcionális. Az adatkezelő {who}
+        {BUSINESS.street ? ` (${[BUSINESS.postalCode, BUSINESS.city, BUSINESS.street].filter(Boolean).join(' ')})` : ''}.
+      </p>
+      <p>
+        Az adatokat csak arra használom, hogy visszahívjalak, illetve egyeztessük az utalvány
+        fizetését és átadását. Jogalap: a hozzájárulásod, amelyet a küldéssel adsz meg, és a
+        szolgáltatás igénybevétele előtti lépések (GDPR 6. cikk (1) a) és b) pont). A
+        megajándékozott nevét csak az utalványra írom rá.
+      </p>
+      <p>
+        A kitöltött űrlap egyetlen e-mailként érkezik a postafiókomba, Gmailen keresztül (Google
+        Ireland Ltd.). Adatbázisba nem kerül. Az e-mailt {FORM_RETENTION} őrzöm, utána törlöm.
+      </p>
+    </>
+  )
+}
+
+const FORM_RETENTION = 'a megkeresést követő 12 hónapig'
+
+/* Every state lists exactly the forms that exist: booking only once it is
+   switched on, the callback and voucher forms always. A notice that
+   describes a form the site does not have, or misses one it does, is wrong
+   either way. */
 export default function Privacy() {
   const owner = BUSINESS.legalName || BUSINESS.name
 
@@ -79,14 +98,18 @@ export default function Privacy() {
             akkor lesznek maradéktalanul igazak.
           </p>
         ) : null}
-        {BOOKING_ONLINE ? (
-          <BookingData owner={owner} />
-        ) : (
-          <p>
-            Ez az oldal jelenleg <strong>nem gyűjt</strong> személyes adatot: nincs rajta űrlap,
-            hírlevél-feliratkozás, sem látogatottság-mérő. Saját sütit nem helyez el a böngésződben.
-          </p>
-        )}
+        {BOOKING_ONLINE ? <BookingData owner={owner} /> : null}
+        <FormsData owner={owner} />
+        <p>
+          Hírlevél, látogatottság-mérő és harmadik féltől származó beágyazás nincs az oldalon, és
+          saját sütit sem helyez el a böngésződben. Kérlek, egészségügyi adatot ne írj az üzenetbe;
+          ha valamire figyelnem kell, azt személyesen beszéljük meg.
+        </p>
+        <p>
+          Bármikor kérheted, hogy megmutassam, kijavítsam vagy töröljem az adataidat, és
+          visszavonhatod a hozzájárulásodat. Panasszal a Nemzeti Adatvédelmi és
+          Információszabadság Hatósághoz (naih.hu) fordulhatsz.
+        </p>
         {BUSINESS.phone ? (
           <p>
             Ha időpontot szeretnél, telefonon tudsz jelentkezni. A hívás során megadott adatokat

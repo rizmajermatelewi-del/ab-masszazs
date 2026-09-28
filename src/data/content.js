@@ -85,8 +85,10 @@ export const TESTIMONIALS = pick('TESTIMONIALS', [])
 
 /* Vouchers, only if she actually sells them. `enabled` false keeps the whole
    section out of the page and out of the navigation. */
+/* She sells vouchers: request online, pay and collect in person
+   (Máté, 2026-09-28). The form lives in sections/GiftCard.jsx. */
 export const GIFT_CARD = pick('GIFT_CARD', {
-  enabled: false,
+  enabled: true,
   text: '',
 })
 

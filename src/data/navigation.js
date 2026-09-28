@@ -16,6 +16,7 @@ import { ABOUT, EXPERIENCE_STEPS, GALLERY, TESTIMONIALS, FAQ, GIFT_CARD } from '
 const SECTIONS = [
   { id: 'rolam', label: 'Rólam', has: () => Boolean(ABOUT.text) },
   { id: 'szolgaltatasok', label: 'Masszázsok', has: () => SERVICES.length > 0 },
+  { id: 'ajanlo', label: 'Melyiket válasszam?', has: () => SERVICES.length > 1 },
   { id: 'elmeny', label: 'Az élmény', has: () => EXPERIENCE_STEPS.length > 0 },
   /* No separate "Árak" entry. The brief lists Masszázsok and Árak as two
      sections, but both would render the same five treatments from the same

@@ -9,6 +9,8 @@ import Gallery from '../sections/Gallery.jsx'
 import Testimonials from '../sections/Testimonials.jsx'
 import GiftCard from '../sections/GiftCard.jsx'
 import Faq from '../sections/Faq.jsx'
+import Recommender from '../sections/Recommender.jsx'
+import Callback from '../sections/Callback.jsx'
 import Visit from '../sections/Visit.jsx'
 import Footer from '../sections/Footer.jsx'
 import BookingBar from '../sections/BookingBar.jsx'
@@ -30,6 +32,7 @@ export default function Home() {
         <Hero />
         <About />
         <Services />
+        <Recommender />
         <Experience />
         <Editorial />
         <Usp />
@@ -37,6 +40,7 @@ export default function Home() {
         <Testimonials />
         <GiftCard />
         <Faq />
+        <Callback />
         <Visit />
       </main>
       <Footer />

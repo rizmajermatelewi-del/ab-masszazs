@@ -1,6 +1,7 @@
 import { createBooking, formatWhen } from './booking.js'
 import { googleCalendar } from './google.js'
 import { gmailMailer } from './mail.js'
+import { createMessages } from './message.js'
 import { BUSINESS } from '../data/business.js'
 
 /* The three endpoints (spec §3) as one web-standard handler: Request in,
@@ -40,9 +41,32 @@ export function bookingFromEnv(env) {
   })
 }
 
-export async function handle(req, booking, ip = 'unknown') {
+/* The callback and voucher forms need only Gmail, so they go live before the
+   calendar does. Sent to her own address. */
+export function messagesFromEnv(env) {
+  if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return null
+  return createMessages({
+    mailer: gmailMailer({ user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD, fromName: BUSINESS.name }),
+    to: env.GMAIL_USER,
+  })
+}
+
+export async function handle(req, booking, ip = 'unknown', messages = null) {
   const url = new URL(req.url)
   const path = url.pathname.replace(/\/+$/, '')
+
+  if (path.endsWith('/message') && req.method === 'POST') {
+    if (!messages) return json({ ok: false, code: 'unavailable' }, 503)
+    if (!allow(ip)) return json({ ok: false, code: 'limited' }, 429)
+    try {
+      const r = await messages.send(await req.json().catch(() => ({})))
+      return json(r, r.ok ? 200 : 400)
+    } catch (err) {
+      console.error('message api', err)
+      return json({ ok: false, code: 'unavailable' }, 503)
+    }
+  }
+
   if (!booking) return path.endsWith('/cancel') ? page(UNAVAILABLE) : json({ ok: false, code: 'unavailable' }, 503)
 
   try {
@@ -99,7 +123,7 @@ const UNAVAILABLE = `
 
 function page(body) {
   const html = `<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${esc(BUSINESS.name || 'Időpont')}</title>
-<style>body{margin:0;background:#F7F4EF;color:#231F1C;font:17px/1.6 system-ui,sans-serif}main{max-width:32rem;margin:0 auto;padding:4rem 1.25rem}h1{font:400 2rem/1.2 Georgia,serif;margin:0 0 1rem}a{color:#8A4F34}button{margin-top:.5rem;min-height:52px;padding:0 1.75rem;border:0;border-radius:999px;background:#231F1C;color:#F7F4EF;font:500 15px system-ui,sans-serif;cursor:pointer}</style>
+<style>body{margin:0;background:#F4E9E6;color:#2E1A2B;font:17px/1.6 system-ui,sans-serif}main{max-width:32rem;margin:0 auto;padding:4rem 1.25rem}h1{font:400 2rem/1.2 Georgia,serif;margin:0 0 1rem}a{color:#6E3563}button{margin-top:.5rem;min-height:52px;padding:0 1.75rem;border:0;border-radius:999px;background:#6E3563;color:#F4E9E6;font:500 15px system-ui,sans-serif;cursor:pointer}</style>
 </head><body><main>${body}${body === UNAVAILABLE ? phoneLine() : ''}</main></body></html>`
   return new Response(html, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } })
 }
