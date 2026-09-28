@@ -27,6 +27,9 @@ const REAL = {
   /* Her Facebook is where clients already write to her, so a Messenger link
      is a real second booking channel, not decoration. */
   messenger: 'https://m.me/brigitta.apostol.9',
+  /* Opens Google's write-a-review dialog for her profile directly. The place
+     id was read from the profile and checked against its CID on 2026-09-28. */
+  googleReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJWSB9xg2RQUcR-r_l3EJDif8',
   instagram: '',
   /* A plain link to Google Maps, not an embedded iframe: an embed sets
      third-party cookies, which would drag a consent banner onto a site that

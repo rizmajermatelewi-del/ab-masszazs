@@ -30,6 +30,10 @@
    hogy a kész oldal látható legyen — és a build ilyenkor szándékosan elhasal.
    Lásd demo.js fejlécét. */
 import { DEMO, DEMO_CONTENT } from './demo.js'
+import { BUSINESS } from './business.js'
+import { SERVICES } from './services.js'
+import { VOUCHER_MONTHS } from '../server/message.js'
+import { formatDuration } from '../lib/format.js'
 
 /* Egyetlen kapu mind a kilenc export előtt: a demó felülírás így egy helyen
    van, nem kilencszer bemásolva. */
@@ -84,14 +88,49 @@ export const USP = pick('USP', [])
 export const TESTIMONIALS = pick('TESTIMONIALS', [])
 
 /* Vouchers, only if she actually sells them. `enabled` false keeps the whole
-   section out of the page and out of the navigation. */
-/* She sells vouchers: request online, pay and collect in person
-   (Máté, 2026-09-28). The form lives in sections/GiftCard.jsx. */
+   section out of the page and out of the navigation. She does: request
+   online, pay and collect in person (Máté, 2026-09-28). The form lives in
+   sections/GiftCard.jsx. */
 export const GIFT_CARD = pick('GIFT_CARD', {
   enabled: true,
   text: '',
 })
 
-/* The questions she is really asked, e.g. { q: '...', a: '...' }.
-   "Kell-e törölközőt hoznom" beats any invented question. */
-export const FAQ = pick('FAQ', [])
+/* Only questions with a true answer. Parking, payment and the 24-hour
+   cancellation request are Máté's answers (2026-09-28); everything else is
+   built from the facts in business.js / services.js, so a changed phone
+   number or price cannot leave a stale copy here. Questions without a known
+   answer (what to bring, what to wear) wait for Brigitta. */
+const weekHours = () => {
+  const [first, ...rest] = BUSINESS.hours
+  if (!first || rest.some((h) => h.opens !== first.opens || h.closes !== first.closes)) return ''
+  return ` Hétfőtől péntekig ${first.opens} és ${first.closes} között dolgozom.`
+}
+const lower = (s) => s.charAt(0).toLowerCase() + s.slice(1)
+
+export const FAQ = pick('FAQ', [
+  {
+    q: 'Hogyan tudok időpontot kérni?',
+    a: `Hívj a ${BUSINESS.phone} számon, írj Messengeren, vagy hagyd meg a számod a visszahívás-kérő űrlapon, és visszahívlak.${weekHours()}`,
+  },
+  {
+    q: 'Miben különbözik a három kezelés?',
+    a:
+      SERVICES.map((s) => `${s.name} (${formatDuration(s.minutes)}): ${lower(s.desc)}`).join(' ') +
+      ' Ha nem tudod eldönteni, a „Melyik masszázs illik hozzád?” résznél segítek választani.',
+  },
+  {
+    q: 'Hol vagy pontosan, és hol tudok parkolni?',
+    a: `${BUSINESS.postalCode} ${BUSINESS.city}, ${BUSINESS.street} Az utcán ingyen tudsz parkolni.`,
+  },
+  { q: 'Hogyan fizethetek?', a: 'Készpénzzel, bankkártyával vagy átutalással.' },
+  {
+    q: 'Mi van, ha mégsem tudok menni?',
+    a: 'Kérlek, legalább 24 órával előtte szólj telefonon vagy Messengeren, hogy másnak oda tudjam adni az időpontot.',
+  },
+  {
+    q: 'Adhatok ajándékba kezelést?',
+    a: `Igen. Az ajándékutalvány egy választott kezelésre szól, és a kiállítástól számított ${VOUCHER_MONTHS} hónapig érvényes. Online kérheted, a fizetés és az átvétel személyesen történik.`,
+  },
+  { q: 'Milyen a kezelőszoba?', a: 'Csendes, klimatizált helyiségben dolgozom.' },
+])

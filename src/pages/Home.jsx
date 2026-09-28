@@ -11,6 +11,7 @@ import GiftCard from '../sections/GiftCard.jsx'
 import Faq from '../sections/Faq.jsx'
 import Recommender from '../sections/Recommender.jsx'
 import Callback from '../sections/Callback.jsx'
+import ReviewInvite from '../sections/ReviewInvite.jsx'
 import Visit from '../sections/Visit.jsx'
 import Footer from '../sections/Footer.jsx'
 import BookingBar from '../sections/BookingBar.jsx'
@@ -42,6 +43,7 @@ export default function Home() {
         <Faq />
         <Callback />
         <Visit />
+        <ReviewInvite />
       </main>
       <Footer />
       <BookingBar />
