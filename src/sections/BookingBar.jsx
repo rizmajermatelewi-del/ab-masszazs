@@ -45,6 +45,7 @@ export default function BookingBar() {
           <div className="swap-in mb-3 flex gap-2">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${address}`}
+              data-umami-event="Útvonal: Google Térkép"
               target="_blank"
               rel="noopener noreferrer"
               className={`${btn} border border-line bg-paper text-ink`}
@@ -53,6 +54,7 @@ export default function BookingBar() {
             </a>
             <a
               href={`https://waze.com/ul?q=${address}&navigate=yes`}
+              data-umami-event="Útvonal: Waze"
               target="_blank"
               rel="noopener noreferrer"
               className={`${btn} border border-line bg-paper text-ink`}
@@ -68,13 +70,14 @@ export default function BookingBar() {
               Foglalás
             </Link>
           ) : (
-            <a href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`} className={`${btn} bg-lotus text-paper`}>
+            <a data-umami-event="Hívás (mobil sáv)" href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`} className={`${btn} bg-lotus text-paper`}>
               Hívás
             </a>
           )}
           {BUSINESS.messenger ? (
             <a
               href={BUSINESS.messenger}
+              data-umami-event="Messenger (mobil sáv)"
               target="_blank"
               rel="noopener noreferrer"
               className={`${btn} border border-lotus/40 text-ink`}

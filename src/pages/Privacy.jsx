@@ -3,6 +3,7 @@ import { BUSINESS } from '../data/business'
 import { DEMO } from '../data/demo'
 import DemoBanner from '../components/DemoBanner.jsx'
 import { BOOKING_ONLINE } from '../data/booking'
+import { ANALYTICS_ON } from '../data/analytics'
 
 /* How long a booking stays in her calendar before she deletes it.
    ponytail: a stated default until she decides otherwise; change it here and
@@ -100,10 +101,21 @@ export default function Privacy() {
         ) : null}
         {BOOKING_ONLINE ? <BookingData owner={owner} /> : null}
         <FormsData owner={owner} />
+        {ANALYTICS_ON ? (
+          <p>
+            <strong>Látogatottság-mérés.</strong> Az oldal az Umami nevű, süti nélküli mérőt használja
+            (umami.is). Összesítve és névtelenül látom, hány látogató volt, melyik részt nézték,
+            honnan érkeztek, és milyen eszközről, valamint azt, hogy hányszor nyomtak meg egy-egy
+            gombot (például a telefonszámot). Sütit nem helyez el, személyes adatot nem tárol, és a
+            „Ne kövess” (Do Not Track) böngészőbeállítást tiszteletben tartja. Jogalap: jogos érdek
+            az oldal fejlesztéséhez (GDPR 6. cikk (1) f) pont).
+          </p>
+        ) : null}
         <p>
-          Hírlevél, látogatottság-mérő és harmadik féltől származó beágyazás nincs az oldalon, és
-          saját sütit sem helyez el a böngésződben. Kérlek, egészségügyi adatot ne írj az üzenetbe;
-          ha valamire figyelnem kell, azt személyesen beszéljük meg.
+          Hírlevél és harmadik féltől származó beágyazás nincs az oldalon,
+          {ANALYTICS_ON ? '' : ' látogatottság-mérő sincs,'} és saját sütit sem helyez el a
+          böngésződben. Kérlek, egészségügyi adatot ne írj az üzenetbe; ha valamire figyelnem kell,
+          azt személyesen beszéljük meg.
         </p>
         <p>
           Bármikor kérheted, hogy megmutassam, kijavítsam vagy töröljem az adataidat, és

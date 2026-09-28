@@ -5,6 +5,7 @@ import { formatPrice, formatDuration } from '../lib/format'
 import BookingButton from '../components/BookingButton.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { Pills } from '../components/Form.jsx'
+import { track } from '../data/analytics'
 
 /* "Which one is for me?" Many visitors have never heard of Yumeiho, so the
    menu alone does not help them choose. Tap where it feels tight, pick what
@@ -38,6 +39,7 @@ export default function Recommender() {
   const reasons = [...AREAS.filter((a) => areas.includes(a.id)), ...NEEDS.filter((n) => n.id === need)]
 
   function gift() {
+    track('Ajándékba adnám')
     window.dispatchEvent(new CustomEvent(GIFT_EVENT, { detail: pickId }))
     document.getElementById('ajandek')?.scrollIntoView({ behavior: 'smooth' })
   }

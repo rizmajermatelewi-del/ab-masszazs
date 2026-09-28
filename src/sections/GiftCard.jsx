@@ -9,6 +9,7 @@ import { Field, Area, Pills, Honeypot, Submit, Consent } from '../components/For
 import Lotus from '../components/Lotus.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { GIFT_EVENT } from './Recommender.jsx'
+import { track } from '../data/analytics'
 
 /* Gift voucher request. The card on the left is the voucher itself, written
    as you type: who it is for, which treatment, your message. Sending turns it
@@ -50,6 +51,7 @@ export default function GiftCard() {
       website: f.get('website'),
     })
     setState(result)
+    if (result === 'sent') track('Utalvány elküldve')
     // On a phone the button is far below the card: bring the card back so
     // the visitor sees it turn over and reads what happens next.
     const card = cardRef.current

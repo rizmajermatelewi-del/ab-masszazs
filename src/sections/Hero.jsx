@@ -48,6 +48,7 @@ export default function Hero() {
             {BUSINESS.messenger ? (
               <a
                 href={BUSINESS.messenger}
+                data-umami-event="Messenger"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-[44px] items-center text-sm font-medium text-lotus underline decoration-lotus/30 underline-offset-4 transition-colors duration-500 ease-fluid hover:decoration-lotus"

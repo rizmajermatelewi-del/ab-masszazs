@@ -83,6 +83,7 @@ export default function Visit() {
                       block, the honest call to action is her telephone number. */}
                   <a
                     href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}
+                    data-umami-event="Telefonszám"
                     className="mt-4 inline-flex min-h-[44px] items-center font-display text-2xl text-lotus underline decoration-lotus/30 underline-offset-[6px] transition-colors duration-700 ease-fluid hover:decoration-lotus"
                   >
                     {BUSINESS.phone}
@@ -90,6 +91,7 @@ export default function Visit() {
                   {BUSINESS.messenger ? (
                     <a
                       href={BUSINESS.messenger}
+                      data-umami-event="Messenger"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-1 flex min-h-[44px] items-center text-sm text-lotus underline decoration-lotus/30 underline-offset-4 transition-colors duration-700 ease-fluid hover:decoration-lotus"

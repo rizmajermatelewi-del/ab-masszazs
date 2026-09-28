@@ -9,6 +9,7 @@ import '@fontsource/cormorant-garamond/400-italic.css'
 import '@fontsource/cormorant-garamond/500.css'
 import '@fontsource-variable/manrope'
 import './index.css'
+import { loadAnalytics } from './data/analytics.js'
 
 /* Hydrate when the prerendered markup is present, mount when it is not — the
    dev server serves an empty #root, the built site does not. */
@@ -23,3 +24,6 @@ const tree = (
 
 if (root.hasChildNodes()) hydrateRoot(root, tree)
 else createRoot(root).render(tree)
+
+// Cookieless statistics, only once a website id is set (data/analytics.js).
+loadAnalytics()

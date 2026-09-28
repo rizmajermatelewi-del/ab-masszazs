@@ -26,6 +26,7 @@ export default function ReviewInvite() {
 
         <a
           href={BUSINESS.googleReviewUrl}
+          data-umami-event="Vélemény írása"
           target="_blank"
           rel="noopener noreferrer"
           className="group mt-10 inline-flex flex-col items-center gap-5"

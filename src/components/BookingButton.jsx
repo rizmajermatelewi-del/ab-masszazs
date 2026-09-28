@@ -26,6 +26,7 @@ export default function BookingButton({ variant = 'primary', className = '' }) {
     return (
       <Tag
         {...target}
+        data-umami-event="Időpontfoglalás gomb"
         className={`group inline-flex min-h-[44px] items-center gap-2 rounded-full bg-lotus px-5 text-sm font-medium text-paper transition-[transform,background-color] duration-700 ease-fluid hover:bg-ink active:scale-[0.98] ${className}`}
       >
         Időpontfoglalás
@@ -37,6 +38,7 @@ export default function BookingButton({ variant = 'primary', className = '' }) {
   return (
     <Tag
       {...target}
+      data-umami-event="Időpontfoglalás gomb"
       className={`group inline-flex min-h-[56px] shrink-0 items-center gap-4 rounded-full bg-lotus py-2 pl-7 pr-2 text-paper shadow-lift transition-[transform,background-color,box-shadow] duration-700 ease-fluid hover:bg-ink hover:shadow-liftHover active:scale-[0.98] ${className}`}
     >
       <span className="text-sm font-medium">Időpontfoglalás</span>
