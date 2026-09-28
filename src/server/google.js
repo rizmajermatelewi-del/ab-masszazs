@@ -80,5 +80,19 @@ export function googleCalendar({ clientEmail, privateKey, calendarId, fetch = gl
     async remove(id) {
       await api(`${events}/${encodeURIComponent(id)}`, { method: 'DELETE' })
     },
+    /* Timed events starting in [timeMin, timeMax), for the daily reminder
+       and review-request run. */
+    async list(timeMin, timeMax) {
+      const q = new URLSearchParams({ timeMin, timeMax, singleEvents: 'true', orderBy: 'startTime', maxResults: '100' })
+      const json = await api(`${events}?${q}`)
+      return (json.items ?? [])
+        .filter((e) => e.status !== 'cancelled' && e.start?.dateTime)
+        .map((e) => ({
+          id: e.id,
+          start: new Date(e.start.dateTime).toISOString(),
+          summary: e.summary ?? '',
+          description: e.description ?? '',
+        }))
+    },
   }
 }

@@ -15,6 +15,10 @@ const PHONE = /^[+0-9 ()/-]{7,20}$/
 const when = new Intl.DateTimeFormat('hu-HU', { timeZone: TZ, dateStyle: 'full', timeStyle: 'short' })
 export const formatWhen = (iso) => when.format(new Date(iso))
 
+/* Written into the calendar event when the client ticks the reminder /
+   review-request box; daily.js mails only those events. */
+export const CONSENT_LINE = 'Emlékeztető és értékelés-kérés: kér'
+
 const joinLines = (lines) => lines.filter((l) => l !== false && l !== undefined && l !== null).join('\n')
 
 /* The cancel link carries the event id and its start, signed, so one client
@@ -99,7 +103,7 @@ export function createBooking({
       start: iso,
       end,
       summary: `${service.name} – ${name}`,
-      description: joinLines([`Telefon: ${phone}`, `E-mail: ${email}`, note && `Megjegyzés: ${note}`, 'Foglalva a weboldalon.']),
+      description: joinLines([`Telefon: ${phone}`, `E-mail: ${email}`, note && `Megjegyzés: ${note}`, input.reminders === true && CONSENT_LINE, 'Foglalva a weboldalon.']),
     })
 
     const cancelUrl = `${origin}/api/cancel?token=${sign(secret, event.id, iso)}`

@@ -110,6 +110,7 @@ export default function Booking() {
       name: f.get('name'),
       phone: f.get('phone'),
       email: f.get('email'),
+      reminders: f.get('reminders') === 'on',
       note: f.get('note'),
       consent: f.get('consent') === 'on',
       website: f.get('website'),
@@ -276,6 +277,12 @@ export default function Booking() {
                       <Field label="Neved" name="name" autoComplete="name" required minLength={2} maxLength={80} />
                       <Field label="Telefonszám" name="phone" type="tel" autoComplete="tel" required minLength={7} maxLength={20} />
                       <Field label="E-mail cím" name="email" type="email" autoComplete="email" required maxLength={120} />
+                      {/* Opt-in, unticked by default: the reminder and the one review request
+                          are the only mails sent beyond the confirmation (server/daily.js). */}
+                      <label className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-ink">
+                        <input type="checkbox" name="reminders" className="mt-1 h-5 w-5 shrink-0 accent-[#6E3563]" />
+                        <span>Kérek emlékeztetőt a kezelés előtti napon, és utána egy rövid levelet, ha szeretnék véleményt írni.</span>
+                      </label>
                       <label className="block">
                         <span className="text-sm font-medium text-ink">Megjegyzés (nem kötelező)</span>
                         <span className="mt-1 block text-sm text-muted">

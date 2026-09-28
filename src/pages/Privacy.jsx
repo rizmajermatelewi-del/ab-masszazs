@@ -26,7 +26,7 @@ function BookingData({ owner }) {
       </p>
       <p>
         Az adatokat kizárólag az időpont rögzítésére, visszaigazolására, szükség esetén az
-        egyeztetésre és a lemondás lehetővé tételére használom. A kezelés jogalapja a
+        egyeztetésre és a lemondás lehetővé tételére használom, és ha kéred, egy emlékeztetőre a kezelés előtti napon, valamint egyetlen értékelés-kérő levélre utána. A kezelés jogalapja a
         hozzájárulásod, amelyet a foglaláskor adsz meg, és a szolgáltatás igénybevételéhez
         szükséges lépések (GDPR 6. cikk (1) a) és b) pont).
       </p>

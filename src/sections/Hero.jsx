@@ -2,6 +2,7 @@ import { BUSINESS } from '../data/business'
 import { HERO } from '../data/content'
 import BookingButton from '../components/BookingButton.jsx'
 import Lotus from '../components/Lotus.jsx'
+import NextSlot from '../components/NextSlot.jsx'
 
 /* Her own logo, as the page's first thing: "AB" over "MASSZÁZS" between two
    rules, the lotus underneath, in plum on dusty rose, as on the cover of her
@@ -56,6 +57,9 @@ export default function Hero() {
                 Írj Messengeren
               </a>
             ) : null}
+          </div>
+          <div className="mt-6 flex justify-center">
+            <NextSlot />
           </div>
         </div>
 

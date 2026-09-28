@@ -2,6 +2,7 @@ import { createBooking, formatWhen } from './booking.js'
 import { googleCalendar } from './google.js'
 import { gmailMailer } from './mail.js'
 import { createMessages } from './message.js'
+import { createDaily } from './daily.js'
 import { BUSINESS } from '../data/business.js'
 
 /* The three endpoints (spec §3) as one web-standard handler: Request in,
@@ -38,6 +39,20 @@ export function bookingFromEnv(env) {
     mailer: gmailMailer({ user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD, fromName: BUSINESS.name }),
     secret: env.BOOKING_SECRET,
     origin: env.SITE_ORIGIN,
+  })
+}
+
+/* The daily reminder / review-request run needs the same wiring as booking. */
+export function dailyFromEnv(env) {
+  const need = ['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'CALENDAR_ID', 'GMAIL_USER', 'GMAIL_APP_PASSWORD']
+  if (need.some((k) => !env[k])) return null
+  return createDaily({
+    calendar: googleCalendar({
+      clientEmail: env.GOOGLE_CLIENT_EMAIL,
+      privateKey: env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      calendarId: env.CALENDAR_ID,
+    }),
+    mailer: gmailMailer({ user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD, fromName: BUSINESS.name }),
   })
 }
 
