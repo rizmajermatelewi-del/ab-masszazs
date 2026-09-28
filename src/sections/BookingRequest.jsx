@@ -72,7 +72,7 @@ export default function BookingRequest() {
     .join(' · ')
 
   return (
-    <section id="idopont" className="px-5 py-20 sm:px-8 sm:py-28">
+    <section id="idopont" className="px-5 py-14 sm:px-8 sm:py-20">
       <Reveal className="mx-auto max-w-3xl">
         <div className="rounded-shell border border-line bg-tint/60 p-6 shadow-core sm:p-12">
           <h2 className="text-[clamp(2rem,5vw,3.25rem)] font-normal leading-[1.1] text-ink">

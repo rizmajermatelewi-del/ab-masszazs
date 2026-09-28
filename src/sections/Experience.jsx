@@ -12,7 +12,7 @@ export default function Experience() {
   if (!EXPERIENCE_STEPS.length) return null
 
   return (
-    <section id="elmeny" className="border-y border-line bg-tint/60 px-5 py-24 sm:px-8 sm:py-32">
+    <section id="elmeny" className="border-y border-line bg-tint/60 px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-[1fr_1.3fr] md:gap-20">
         <div>
           <div className="md:sticky md:top-32">

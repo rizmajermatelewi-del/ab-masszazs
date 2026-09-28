@@ -15,7 +15,7 @@ export default function ReviewInvite() {
   if (!BUSINESS.googleReviewUrl) return null
 
   return (
-    <section id="velemeny" className="px-5 py-24 text-center sm:px-8 sm:py-32">
+    <section id="velemeny" className="px-5 py-14 text-center sm:px-8 sm:py-20">
       <Reveal className="mx-auto max-w-xl">
         <h2 className="text-[clamp(2rem,5vw,3.25rem)] font-normal leading-[1.1] text-ink">
           Jártál már <em className="text-lotus">nálam?</em>

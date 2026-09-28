@@ -12,7 +12,7 @@ export default function Editorial() {
   if (!EDITORIAL.quote) return null
 
   return (
-    <section className="relative isolate flex min-h-[80svh] items-end px-5 py-24 sm:px-8 sm:py-32">
+    <section className="relative isolate flex min-h-[80svh] items-end px-5 py-14 sm:px-8 sm:py-20">
       <div className="absolute inset-0 -z-10">
         <ImageReveal
           src={EDITORIAL.image}

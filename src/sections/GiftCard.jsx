@@ -61,7 +61,7 @@ export default function GiftCard() {
   }
 
   return (
-    <section id="ajandek" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section id="ajandek" className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="max-w-[16ch] text-[clamp(2.25rem,5.5vw,4rem)] font-normal leading-[1.05] text-ink">

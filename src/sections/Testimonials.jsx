@@ -13,7 +13,7 @@ export default function Testimonials() {
   const [lead, ...rest] = TESTIMONIALS
 
   return (
-    <section id="velemenyek" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section id="velemenyek" className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="text-[10px] font-medium uppercase tracking-label text-faint">Vélemények</p>

@@ -14,7 +14,7 @@ export default function About() {
   if (!ABOUT.text) return null
 
   return (
-    <section id="rolam" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section id="rolam" className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto grid max-w-6xl items-end gap-12 md:grid-cols-[1fr_1.4fr] md:gap-20">
         <ImageReveal
           src={ABOUT.image}

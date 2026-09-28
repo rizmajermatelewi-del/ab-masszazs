@@ -68,7 +68,7 @@ export default function Recommender() {
   }
 
   return (
-    <section id="ajanlo" className="px-5 py-20 sm:px-8 sm:py-28">
+    <section id="ajanlo" className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="max-w-[16ch] text-[clamp(2.25rem,5.5vw,4rem)] font-normal leading-[1.05] text-ink">

@@ -9,7 +9,7 @@ export default function Usp() {
   if (!USP.length) return null
 
   return (
-    <section className="px-5 py-24 sm:px-8 sm:py-32">
+    <section className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <dl className="grid gap-x-16 gap-y-12 border-t border-ink/[0.08] pt-12 sm:grid-cols-2 lg:grid-cols-3">
           {USP.map((item, index) => (

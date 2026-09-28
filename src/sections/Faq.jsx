@@ -14,7 +14,7 @@ export default function Faq() {
   if (!FAQ.length) return null
 
   return (
-    <section id="gyik" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section id="gyik" className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[1fr_1.6fr] md:gap-20">
         <Reveal>
           <p className="text-[10px] font-medium uppercase tracking-label text-faint">GYIK</p>

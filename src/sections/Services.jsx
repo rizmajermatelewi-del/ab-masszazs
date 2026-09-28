@@ -23,7 +23,7 @@ export default function Services() {
   if (!SERVICES.length) return null
 
   return (
-    <section id="szolgaltatasok" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section id="szolgaltatasok" className="px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="text-[10px] font-medium uppercase tracking-label text-faint">Masszázsok</p>
@@ -32,7 +32,7 @@ export default function Services() {
           </h2>
         </Reveal>
 
-        <div className={`mt-16 grid gap-12 ${hasPhoto ? 'md:grid-cols-[1.2fr_1fr] md:gap-16' : ''}`}>
+        <div className={`mt-12 grid gap-12 ${hasPhoto ? 'md:grid-cols-[1.2fr_1fr] md:gap-16' : ''}`}>
           <ul className="border-t border-ink/[0.08]">
             {SERVICES.map((service, index) => (
               <li
@@ -78,7 +78,7 @@ export default function Services() {
 
           {hasPhoto ? <div className="hidden md:block">
             <div className="sticky top-28">
-              <div className="relative aspect-[3/4] overflow-hidden rounded-shell">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-shell">
                 {SERVICES.map((service, index) => (
                   <div
                     key={service.id}

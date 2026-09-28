@@ -32,7 +32,7 @@ export default function Visit() {
   if (!hasAddress && !BUSINESS.hours.length && !BUSINESS.phone) return null
 
   return (
-    <section id="elerhetoseg" className="px-4 py-24 sm:px-8 sm:py-32">
+    <section id="elerhetoseg" className="px-4 py-14 sm:px-8 sm:py-20">
       <h2 className="sr-only">Elérhetőség</h2>
 
       {/* Two columns, not three: address and telephone belong together because
