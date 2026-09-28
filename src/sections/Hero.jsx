@@ -71,7 +71,7 @@ export default function Hero() {
               <img
                 src={HERO.image}
                 alt={HERO.imageAlt}
-                fetchpriority="high"
+                fetchPriority="high"
                 decoding="async"
                 className="hero-photo h-full w-full object-cover"
               />
