@@ -152,3 +152,41 @@
   fill: #6e3563;
 }
 .review-star:hover { transform: translateY(-2px) scale(1.08); }
+
+/* Hero photo settles in once on load. */
+.hero-photo { animation: hero-photo 1.6s cubic-bezier(0.32, 0.72, 0, 1) both; }
+@keyframes hero-photo {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: 1; transform: none; }
+}
+
+/* "Most nyitva" dot: a slow ring, only while open. */
+.open-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #6e3563;
+  animation: open-ring 2.4s ease-out infinite;
+}
+@keyframes open-ring {
+  from { opacity: 0.5; transform: scale(1); }
+  to { opacity: 0; transform: scale(2.6); }
+}
+
+/* "Első alkalom" path: the plum line grows with the section's scroll
+   position where the browser supports scroll-driven animations; elsewhere,
+   and with reduced motion, it is simply drawn. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .exp-fill {
+      animation: exp-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 25% cover 60%;
+    }
+  }
+}
+@keyframes exp-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}

@@ -43,25 +43,35 @@ const pick = (key, real) => (DEMO ? DEMO_CONTENT[key] : real)
    Deliberately NOT auto-filled from a template like "Adj időt magadnak":
    the hero is the first thing a stranger reads, and borrowed words there are
    the fastest way to sound like every other salon page. */
+/* ─── KITÖLTŐ TARTALOM (Máté, 2026-09-28: „filler dolgok is lehetnek") ───
+   The hero photo, ABOUT, EXPERIENCE_STEPS, GALLERY and the treatment photos
+   in services.js are FILLER until Brigitta replaces them: free Unsplash
+   photos stored in public/img (not hotlinked, so no third party sees the
+   visitor), alt texts that say "Illusztráció", and short texts she should
+   read and rewrite in her own words. Nothing here is a review, a number or
+   a qualification: those are never filled in. */
 export const HERO = pick('HERO', {
   headline: '',
-  /* Optional: a photograph for the hero. Empty renders a labelled frame. */
-  image: '',
-  imageAlt: '',
+  image: '/img/hero-gyertya.webp',
+  imageAlt: 'Illusztráció: összetekert törölköző, gyertya és rózsaszín tulipán',
 })
 
 export const ABOUT = pick('ABOUT', {
-  /* Her own words about her practice. Never a generated
-     "passionate about wellness" paragraph -- see the module header. */
-  text: '',
-  image: '',
-  imageAlt: '',
+  // FILLER: only facts we know, plus one sentence she should confirm.
+  text:
+    'Apostol Brigitta vagyok. Inárcson, egy csendes, klimatizált kezelőszobában várlak svédmasszázzsal, Yumeiho terápiával és talpreflexológiával.\n\n' +
+    'Minden kezelés egy rövid beszélgetéssel kezdődik: elmondod, hol érzed a feszültséget, és ahhoz igazítom a masszázst. A célom, hogy könnyebben, nyugodtabban menj haza, mint ahogy jöttél.',
+  image: '/img/rolam-szoba.webp',
+  imageAlt: 'Illusztráció: világos kezelőszoba masszázságyal és orchideával',
 })
 
-/* The steps of a visit, e.g.
-     { title: 'Megérkezés', text: 'Rövid mondat arról, mi történik.' }
-   Numbering is generated from the array index, so reordering is safe. */
-export const EXPERIENCE_STEPS = pick('EXPERIENCE_STEPS', [])
+/* FILLER: how a first visit goes. Numbering comes from the array index. */
+export const EXPERIENCE_STEPS = pick('EXPERIENCE_STEPS', [
+  { title: 'Megérkezés', text: 'Leveszed a kabátod, iszol egy pohár vizet, és nem kell sietni sehova.' },
+  { title: 'Rövid beszélgetés', text: 'Elmondod, hol érzed a feszültséget, és mire vágysz: így tudom, mire figyeljek.' },
+  { title: 'A kezelés', text: 'A választott masszázs, a te tempódhoz igazítva. Szólj bátran, ha valami túl erős.' },
+  { title: 'Pihenő', text: 'Pár perc csend a végén, mielőtt felkelsz. Utána egy pohár víz, és indulhatsz.' },
+])
 
 /* One sentence set at display size over a full-bleed photograph. */
 export const EDITORIAL = pick('EDITORIAL', {
@@ -74,7 +84,14 @@ export const EDITORIAL = pick('EDITORIAL', {
      { src: '/images/kezelo-01.webp', alt: 'A kezelőszoba ablak felőli sarka' }
    alt is required on every entry and is checked by the test: a gallery of
    unlabelled images is unusable with a screen reader. */
-export const GALLERY = pick('GALLERY', [])
+export const GALLERY = pick('GALLERY', [
+  { src: '/img/galeria-olaj.webp', alt: 'Illusztráció: masszázsolaj a háton' },
+  { src: '/img/galeria-kovek.webp', alt: 'Illusztráció: egymásra rakott fehér kövek' },
+  { src: '/img/galeria-talp.webp', alt: 'Illusztráció: talpreflexológiás kezelés' },
+  { src: '/img/galeria-csepp.webp', alt: 'Illusztráció: olajcsepp egy üvegcséből a tenyérbe' },
+  { src: '/img/galeria-moha.webp', alt: 'Illusztráció: kőrakás mohás sziklán' },
+  { src: '/img/galeria-fej.webp', alt: 'Illusztráció: arc- és fejmasszázs' },
+])
 
 /* What genuinely distinguishes her, e.g.
      { title: 'Egy vendég egy időben', text: 'Rövid, ellenőrizhető állítás.' }

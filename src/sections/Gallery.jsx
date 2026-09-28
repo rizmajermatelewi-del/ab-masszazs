@@ -10,6 +10,11 @@ import Reveal from '../components/Reveal.jsx'
    The lightbox is a native <dialog>: it brings focus trapping, Escape, the
    backdrop and inert-ing the page behind it for free. A hand-rolled modal is
    where keyboard users get stranded, and it is a lot of code to get wrong. */
+/* Fixed ratios, alternating so each of the three columns gets one landscape
+   and one portrait photo and ends level. With lazy images the browser cannot
+   balance columns it does not know the height of, which left a hole. */
+const RATIO = ['aspect-[4/3]', 'aspect-[4/5]', 'aspect-[4/5]', 'aspect-[4/3]', 'aspect-[4/3]', 'aspect-[4/5]']
+
 export default function Gallery() {
   const [openIndex, setOpenIndex] = useState(null)
   const dialogRef = useRef(null)
@@ -51,7 +56,7 @@ export default function Gallery() {
                 alt={photo.alt}
                 loading="lazy"
                 decoding="async"
-                className="w-full transition-transform duration-[900ms] ease-fluid group-hover:scale-[1.04]"
+                className={`${RATIO[index % RATIO.length]} w-full object-cover transition-transform duration-[900ms] ease-fluid group-hover:scale-[1.04]`}
               />
             </button>
           ))}

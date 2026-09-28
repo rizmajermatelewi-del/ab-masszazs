@@ -24,6 +24,8 @@ const REAL = [
     minutes: 60,
     price: 9000,
     desc: 'Frissülés, ellazulás, teljes testi-lelki kikapcsolódás.',
+    image: '/img/kezeles-sved.webp', // FILLER photo
+    imageAlt: 'Illusztráció: kezek masszírozzák a hátat',
   },
   {
     id: 'yumeiho',
@@ -31,6 +33,8 @@ const REAL = [
     minutes: 60,
     price: 10000,
     desc: 'Harmonizálás, energiaáramlás, test és lélek egyensúlya.',
+    image: '/img/kezeles-yumeiho.webp', // FILLER photo
+    imageAlt: 'Illusztráció: tenyérrel nyomott izom a csípő táján',
   },
   {
     id: 'talpreflexologia',
@@ -38,6 +42,8 @@ const REAL = [
     minutes: 45,
     price: 7000,
     desc: 'Talpmasszázzsal a szervek működésének támogatásáért.',
+    image: '/img/kezeles-talp.webp', // FILLER photo
+    imageAlt: 'Illusztráció: talpmasszázs olajjal',
   },
 ]
 

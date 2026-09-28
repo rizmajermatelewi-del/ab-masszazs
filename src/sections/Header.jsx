@@ -3,6 +3,8 @@ import { BUSINESS } from '../data/business'
 import { visibleSections } from '../data/navigation'
 import BookingButton from '../components/BookingButton.jsx'
 import DemoBanner from '../components/DemoBanner.jsx'
+import Announcement from '../components/Announcement.jsx'
+import OpenBadge from '../components/OpenBadge.jsx'
 
 /* Transparent over the hero, then a paper wash and a hairline once the page has
    moved. It compacts rather than changing shape, so nothing under it jumps.
@@ -59,18 +61,23 @@ export default function Header() {
           top -- or lies over this bar and buries the menu. Here the bar simply
           starts lower and nothing is covered. Renders nothing outside demo. */}
       <DemoBanner />
+      <Announcement />
 
       <div
         className={`mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 transition-[padding] duration-700 ease-fluid sm:px-8 ${
           scrolled ? 'py-1' : 'py-3'
         }`}
       >
-        <a
+        <div className="flex items-center gap-4">
+          <a
           href="#kezdolap"
           className="relative z-10 inline-flex min-h-[44px] items-center font-display text-base tracking-tight text-ink"
         >
           {BUSINESS.name || 'AB Masszázs'}
         </a>
+          {/* Room for it beside the menu only below lg (menu collapsed) and from xl. */}
+          <OpenBadge className="hidden sm:inline-flex lg:hidden xl:inline-flex" />
+        </div>
 
         <nav className="hidden items-center gap-7 lg:flex">
           {sections.map(({ id, label }) => (

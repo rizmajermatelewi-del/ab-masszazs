@@ -17,13 +17,14 @@ const SECTIONS = [
   { id: 'rolam', label: 'Rólam', has: () => Boolean(ABOUT.text) },
   { id: 'szolgaltatasok', label: 'Masszázsok', has: () => SERVICES.length > 0 },
   { id: 'ajanlo', label: 'Melyiket válasszam?', has: () => SERVICES.length > 1 },
-  { id: 'elmeny', label: 'Az élmény', has: () => EXPERIENCE_STEPS.length > 0 },
+  // Not in the menu: at eight items it no longer fits one line at 1024px.
+  { id: 'elmeny', label: 'Az élmény', has: () => EXPERIENCE_STEPS.length > 0, inMenu: false },
   /* No separate "Árak" entry. The brief lists Masszázsok and Árak as two
      sections, but both would render the same five treatments from the same
      array -- and the brief also bans repeated section structures. The prices
      live in the Masszázsok list, where someone comparing treatments actually
      wants them, and one nav item points there. */
-  { id: 'galeria', label: 'Galéria', has: () => GALLERY.length > 0 },
+  { id: 'galeria', label: 'Galéria', has: () => GALLERY.length > 0, inMenu: false },
   { id: 'velemenyek', label: 'Vélemények', has: () => TESTIMONIALS.length > 0 },
   { id: 'ajandek', label: 'Ajándékutalvány', has: () => GIFT_CARD.enabled },
   { id: 'gyik', label: 'GYIK', has: () => FAQ.length > 0 },
@@ -40,5 +41,5 @@ const SECTIONS = [
 ]
 
 export function visibleSections() {
-  return SECTIONS.filter((section) => section.has()).map(({ id, label }) => ({ id, label }))
+  return SECTIONS.filter((section) => section.inMenu !== false && section.has()).map(({ id, label }) => ({ id, label }))
 }
